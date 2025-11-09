@@ -614,34 +614,38 @@ small {
 
 .cv-name {
     font-family: 'Inter', sans-serif;
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     font-weight: 700;
     color: #000;
-    margin-bottom: 2px;
-    letter-spacing: 0.1em;
-    line-height: 1;
+    margin: 0;
+    padding: 0;
+    letter-spacing: 0.08em;
+    line-height: 1.1;
     text-transform: uppercase;
     word-wrap: break-word;
     overflow-wrap: break-word;
 }
 
 .cv-title-line {
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     color: #000;
     font-weight: 500;
-    margin-bottom: 2px;
-    letter-spacing: 0.1em;
-    line-height: 1.2;
+    margin: 0;
+    padding: 0;
+    letter-spacing: 0.08em;
+    line-height: 1.1;
     word-wrap: break-word;
     overflow-wrap: break-word;
 }
 
 .cv-contact {
     color: #000;
-    font-size: 0.65rem;
+    font-size: 0.6rem;
     font-weight: 400;
-    line-height: 1.3;
-    margin-top: 2px;
+    line-height: 1.2;
+    margin: 0;
+    padding: 0;
+    margin-top: 1px;
     word-wrap: break-word;
     overflow-wrap: break-word;
 }
@@ -651,30 +655,30 @@ small {
 }
 
 .cv-section {
-    margin-bottom: 4px;
+    margin-bottom: 2px;
     word-wrap: break-word;
     overflow-wrap: break-word;
 }
 
 .cv-section-title {
     font-family: 'Inter', sans-serif;
-    font-size: 0.7rem;
+    font-size: 0.68rem;
     font-weight: 700;
     color: #000;
-    margin-bottom: 3px;
+    margin-bottom: 1px;
     padding-bottom: 1px;
     border-bottom: 0.5px solid #000;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.08em;
     word-wrap: break-word;
     overflow-wrap: break-word;
 }
 
 .cv-summary {
     color: #000;
-    margin-bottom: 4px;
-    line-height: 1.35;
-    font-size: 0.7rem;
+    margin-bottom: 2px;
+    line-height: 1.3;
+    font-size: 0.68rem;
     word-wrap: break-word;
     overflow-wrap: break-word;
 }
@@ -682,7 +686,7 @@ small {
 .cv-experience-item,
 .cv-education-item,
 .cv-certification-item {
-    margin-bottom: 5px;
+    margin-bottom: 3px;
     word-wrap: break-word;
     overflow-wrap: break-word;
 }
@@ -691,8 +695,10 @@ small {
 .cv-degree {
     font-weight: 700;
     color: #000;
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     margin-bottom: 0;
+    margin-top: 0;
+    line-height: 1.1;
     word-wrap: break-word;
     overflow-wrap: break-word;
 }
@@ -702,17 +708,20 @@ small {
     color: #333;
     font-style: normal;
     font-weight: 500;
-    font-size: 0.7rem;
+    font-size: 0.68rem;
     margin-bottom: 0;
+    margin-top: 0;
+    line-height: 1.1;
     word-wrap: break-word;
     overflow-wrap: break-word;
 }
 
 .cv-date {
     color: #666;
-    font-size: 0.65rem;
+    font-size: 0.63rem;
     margin-top: 0;
     margin-bottom: 1px;
+    line-height: 1;
     word-wrap: break-word;
     overflow-wrap: break-word;
 }
@@ -720,8 +729,8 @@ small {
 .cv-description {
     margin-top: 1px;
     color: #000;
-    line-height: 1.3;
-    font-size: 0.7rem;
+    line-height: 1.25;
+    font-size: 0.68rem;
     word-wrap: break-word;
     overflow-wrap: break-word;
 }
@@ -741,8 +750,9 @@ small {
 
 .cv-skills {
     color: #000;
-    line-height: 1.35;
-    font-size: 0.7rem;
+    line-height: 1.3;
+    font-size: 0.68rem;
+    margin-top: 2px;
     word-wrap: break-word;
     overflow-wrap: break-word;
 }
