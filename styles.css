@@ -436,14 +436,14 @@ small {
 }
 
 .cv-preview {
-    background: #000;
+    background: #fff;
     padding: 25px;
-    border: 2px solid #fff;
+    border: 2px solid var(--border-accent);
     border-radius: 0;
     min-height: 500px;
     font-family: 'Inter', sans-serif;
     line-height: 1.5;
-    color: #fff;
+    color: #000;
 }
 
 .placeholder-text {
@@ -461,13 +461,13 @@ small {
     align-items: flex-start;
     margin-bottom: 15px;
     padding-bottom: 12px;
-    border-bottom: 2px solid #fff;
+    border-bottom: 2px solid #000;
 }
 
 .cv-photo {
     width: 80px;
     height: 80px;
-    border: 2px solid #fff;
+    border: 2px solid #000;
     overflow: hidden;
     flex-shrink: 0;
 }
@@ -628,5 +628,73 @@ small {
 
     .action-buttons {
         flex-direction: column;
+    }
+}
+
+/* PDF Print Styles */
+@media print {
+    body {
+        background: #fff;
+        padding: 0;
+    }
+
+    .container {
+        max-width: 100%;
+    }
+
+    header,
+    .form-section,
+    .tips-section,
+    .preview-header,
+    .action-buttons {
+        display: none;
+    }
+
+    .preview-section {
+        box-shadow: none;
+        border: none;
+        padding: 0;
+    }
+
+    .cv-preview {
+        background: #fff;
+        border: none;
+        padding: 0;
+        min-height: auto;
+        color: #000;
+    }
+
+    .cv-name {
+        color: #000 !important;
+    }
+
+    .cv-section-title {
+        color: #000 !important;
+        border-bottom-color: #000 !important;
+    }
+
+    .cv-header {
+        border-bottom-color: #000 !important;
+    }
+
+    .cv-contact {
+        color: #333 !important;
+    }
+
+    .cv-description,
+    .cv-skills,
+    .cv-summary {
+        color: #000 !important;
+    }
+
+    .cv-job-title,
+    .cv-degree {
+        color: #000 !important;
+    }
+
+    .cv-company,
+    .cv-school,
+    .cv-date {
+        color: #333 !important;
     }
 }

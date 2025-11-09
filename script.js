@@ -389,15 +389,49 @@ function downloadPDF() {
     const fullName = document.getElementById('fullName').value.trim() || 'CV';
     const filename = `${fullName.replace(/\s+/g, '_')}_CV.pdf`;
     
-    // PDF options for ATS-friendly format
+    // Create a clone for PDF generation
+    const clonedPreview = cvPreview.cloneNode(true);
+    
+    // Apply white background and black text styles for PDF
+    clonedPreview.style.background = '#fff';
+    clonedPreview.style.color = '#000';
+    clonedPreview.style.padding = '20px';
+    
+    // Ensure all text is black in the cloned version
+    clonedPreview.querySelectorAll('[class*="cv-"]').forEach(el => {
+        if (el.classList.contains('cv-name') || 
+            el.classList.contains('cv-section-title') ||
+            el.classList.contains('cv-job-title') ||
+            el.classList.contains('cv-degree')) {
+            el.style.color = '#000';
+        } else if (el.classList.contains('cv-contact') ||
+                   el.classList.contains('cv-company') ||
+                   el.classList.contains('cv-school') ||
+                   el.classList.contains('cv-date')) {
+            el.style.color = '#333';
+        } else {
+            el.style.color = '#000';
+        }
+    });
+    
+    // PDF options for A4 format
     const opt = {
         margin: [0.5, 0.5, 0.5, 0.5],
         filename: filename,
         image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true },
-        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+        html2canvas: { 
+            scale: 2, 
+            useCORS: true,
+            backgroundColor: '#ffffff'
+        },
+        jsPDF: { 
+            unit: 'cm', 
+            format: 'a4', 
+            orientation: 'portrait',
+            compress: true
+        }
     };
     
     // Generate and download PDF
-    html2pdf().set(opt).from(cvPreview).save();
+    html2pdf().set(opt).from(clonedPreview).save();
 }
