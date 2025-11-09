@@ -205,7 +205,10 @@ function clearForm() {
 
 // Load Sample CV
 function loadSampleCV() {
-    // Personal Information
+    // Store the current photo input value to preserve it
+    const photoInputElement = document.getElementById('photoInput');
+    
+    // Personal Information (but skip photo input field)
     document.getElementById('fullName').value = 'MICHAEL HARRIS';
     document.getElementById('titleLine').value = 'Digital Marketing | SEO | SEM | Content Marketing';
     document.getElementById('email').value = 'michael.harris@email.com';
@@ -213,6 +216,9 @@ function loadSampleCV() {
     document.getElementById('location').value = 'Sydney, Australia';
     document.getElementById('linkedin').value = 'linkedin.com/in/michaelharris';
     document.getElementById('portfolio').value = 'www.michaelharris.com';
+    
+    // DO NOT reset photo - let user add/change photo independently
+    // Photo input is preserved to allow user to upload after loading sample
     
     // Professional Summary
     document.getElementById('summary').value = 'Results-driven Digital Marketing professional with 8+ years of experience in developing and executing strategic marketing campaigns. Proven expertise in SEO, SEM, and content marketing with a track record of increasing organic traffic by 250% and reducing acquisition costs by 35%. Passionate about leveraging data-driven insights to drive business growth and enhance customer engagement.';
