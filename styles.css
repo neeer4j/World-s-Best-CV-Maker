@@ -341,6 +341,51 @@ textarea:focus {
     background: var(--bg-tertiary);
 }
 
+.url-field-wrapper {
+    margin-bottom: 12px;
+}
+
+.url-input-group {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    margin-bottom: 8px;
+}
+
+.url-input-group input[type="url"] {
+    flex: 1;
+    margin-bottom: 0;
+}
+
+.url-checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 14px 12px;
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 500;
+    user-select: none;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    margin-top: 0;
+}
+
+.url-checkbox-label:hover {
+    background: var(--bg-tertiary);
+    border-color: var(--input-focus);
+}
+
+.url-checkbox-label input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    margin: 0;
+    accent-color: var(--button-border);
+}
+
 textarea {
     resize: vertical;
     font-family: inherit;

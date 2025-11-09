@@ -58,6 +58,20 @@ function toggleSection(headerElement) {
     }
 }
 
+// Toggle link name field visibility
+function toggleLinkName(fieldType) {
+    const checkbox = document.getElementById(fieldType + 'Link');
+    const linkNameField = document.getElementById(fieldType + 'LinkName');
+    
+    if (checkbox.checked) {
+        linkNameField.style.display = 'block';
+        linkNameField.focus();
+    } else {
+        linkNameField.style.display = 'none';
+        linkNameField.value = '';
+    }
+}
+
 // Toggle Theme Function
 function toggleTheme() {
     const currentTheme = document.documentElement.getAttribute('data-theme');
@@ -464,13 +478,35 @@ function generatePreview() {
             <div class="cv-contact">
     `;
     
+    // Get link preferences
+    const linkedinLink = document.getElementById('linkedinLink').checked;
+    const portfolioLink = document.getElementById('portfolioLink').checked;
+    const linkedinLinkName = document.getElementById('linkedinLinkName').value.trim();
+    const portfolioLinkName = document.getElementById('portfolioLinkName').value.trim();
+    
     // Build contact info on single line with pipes
     const contactParts = [];
     if (location) contactParts.push(escapeHtml(location));
     if (email) contactParts.push(escapeHtml(email));
     if (phone) contactParts.push(escapeHtml(phone));
-    if (linkedin) contactParts.push(escapeHtml(linkedin));
-    if (portfolio) contactParts.push(escapeHtml(portfolio));
+    
+    // Handle LinkedIn with optional link
+    if (linkedin) {
+        if (linkedinLink && linkedinLinkName) {
+            contactParts.push(`<a href="${escapeHtml(linkedin)}" style="color: #000; text-decoration: underline;">${escapeHtml(linkedinLinkName)}</a>`);
+        } else {
+            contactParts.push(escapeHtml(linkedin));
+        }
+    }
+    
+    // Handle Portfolio with optional link
+    if (portfolio) {
+        if (portfolioLink && portfolioLinkName) {
+            contactParts.push(`<a href="${escapeHtml(portfolio)}" style="color: #000; text-decoration: underline;">${escapeHtml(portfolioLinkName)}</a>`);
+        } else {
+            contactParts.push(escapeHtml(portfolio));
+        }
+    }
     
     if (contactParts.length > 0) {
         cvHTML += contactParts.join(' | ');

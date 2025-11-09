@@ -45,8 +45,28 @@
                         <input type="email" id="email" placeholder="Email">
                         <input type="tel" id="phone" placeholder="Phone Number">
                         <input type="text" id="location" placeholder="City, State/Country">
-                        <input type="url" id="linkedin" placeholder="LinkedIn URL">
-                        <input type="url" id="portfolio" placeholder="Portfolio/Website URL">
+                        
+                        <div class="url-field-wrapper">
+                            <div class="url-input-group">
+                                <input type="url" id="linkedin" placeholder="LinkedIn URL">
+                                <label class="url-checkbox-label">
+                                    <input type="checkbox" id="linkedinLink" onchange="toggleLinkName('linkedin')">
+                                    <span>Make Link</span>
+                                </label>
+                            </div>
+                            <input type="text" id="linkedinLinkName" placeholder="Link Name (e.g., 'LinkedIn')" style="display: none;">
+                        </div>
+                        
+                        <div class="url-field-wrapper">
+                            <div class="url-input-group">
+                                <input type="url" id="portfolio" placeholder="Portfolio/Website URL">
+                                <label class="url-checkbox-label">
+                                    <input type="checkbox" id="portfolioLink" onchange="toggleLinkName('portfolio')">
+                                    <span>Make Link</span>
+                                </label>
+                            </div>
+                            <input type="text" id="portfolioLinkName" placeholder="Link Name (e.g., 'Portfolio')" style="display: none;">
+                        </div>
                     </div>
                 </section>
 
