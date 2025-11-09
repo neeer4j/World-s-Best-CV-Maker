@@ -203,6 +203,91 @@ function clearForm() {
     }
 }
 
+// Load Sample CV
+function loadSampleCV() {
+    // Personal Information
+    document.getElementById('fullName').value = 'MICHAEL HARRIS';
+    document.getElementById('titleLine').value = 'Digital Marketing | SEO | SEM | Content Marketing';
+    document.getElementById('email').value = 'michael.harris@email.com';
+    document.getElementById('phone').value = '+1 (555) 123-4567';
+    document.getElementById('location').value = 'Sydney, Australia';
+    document.getElementById('linkedin').value = 'linkedin.com/in/michaelharris';
+    document.getElementById('portfolio').value = 'www.michaelharris.com';
+    
+    // Professional Summary
+    document.getElementById('summary').value = 'Results-driven Digital Marketing professional with 8+ years of experience in developing and executing strategic marketing campaigns. Proven expertise in SEO, SEM, and content marketing with a track record of increasing organic traffic by 250% and reducing acquisition costs by 35%. Passionate about leveraging data-driven insights to drive business growth and enhance customer engagement.';
+    
+    // Clear and add work experience
+    document.getElementById('experienceContainer').innerHTML = '';
+    experienceCount = 0;
+    
+    addExperience();
+    let exp1 = document.querySelector('.experience-item');
+    exp1.querySelector('.job-title').value = 'Senior Digital Marketing Manager';
+    exp1.querySelector('.company').value = 'Tech Solutions Inc.';
+    exp1.querySelector('.job-location').value = 'Sydney, NSW';
+    exp1.querySelector('.start-date').value = 'Mar 2021';
+    exp1.querySelector('.end-date').value = 'Present';
+    exp1.querySelector('.job-description').value = '- Led a team of 5 marketing professionals in executing multi-channel campaigns\n- Increased organic search traffic by 250% through comprehensive SEO strategy\n- Managed $500K+ annual marketing budget with 35% improvement in ROI\n- Developed and implemented content marketing strategy resulting in 40% lead increase';
+    
+    addExperience();
+    let exp2 = document.querySelectorAll('.experience-item')[1];
+    exp2.querySelector('.job-title').value = 'Digital Marketing Specialist';
+    exp2.querySelector('.company').value = 'Creative Digital Agency';
+    exp2.querySelector('.job-location').value = 'Melbourne, VIC';
+    exp2.querySelector('.start-date').value = 'Jun 2018';
+    exp2.querySelector('.end-date').value = 'Feb 2021';
+    exp2.querySelector('.job-description').value = '- Executed SEM campaigns for 20+ clients, averaging 45% improvement in conversion rates\n- Optimized Google Ads and Facebook campaigns achieving $2M+ in revenue\n- Created SEO strategy for B2B clients resulting in top 3 rankings for 15+ keywords\n- Managed social media accounts with 150K+ combined followers';
+    
+    // Clear and add education
+    document.getElementById('educationContainer').innerHTML = '';
+    educationCount = 0;
+    
+    addEducation();
+    let edu1 = document.querySelector('.education-item');
+    edu1.querySelector('.degree').value = 'Bachelor of Business (Marketing)';
+    edu1.querySelector('.school').value = 'University of Sydney';
+    edu1.querySelector('.edu-location').value = 'Sydney, NSW';
+    edu1.querySelector('.grad-date').value = 'Nov 2018';
+    edu1.querySelector('.gpa').value = '3.8/4.0';
+    
+    addEducation();
+    let edu2 = document.querySelectorAll('.education-item')[1];
+    edu2.querySelector('.degree').value = 'Diploma in Digital Marketing';
+    edu2.querySelector('.school').value = 'Google Digital Garage';
+    edu2.querySelector('.edu-location').value = 'Online';
+    edu2.querySelector('.grad-date').value = 'Aug 2017';
+    edu2.querySelector('.gpa').value = '';
+    
+    // Skills
+    document.getElementById('skills').value = 'SEO, SEM, Google Ads, Facebook Ads, Content Marketing, Email Marketing, Analytics, Data Analysis, Google Analytics, CRM, Copywriting, Brand Strategy, Social Media Management, A/B Testing, Marketing Automation, HTML, CSS, WordPress';
+    
+    // Clear and add certifications
+    document.getElementById('certificationContainer').innerHTML = '';
+    certificationCount = 0;
+    
+    addCertification();
+    let cert1 = document.querySelector('.certification-item');
+    cert1.querySelector('.cert-name').value = 'Google Ads Search Certification';
+    cert1.querySelector('.cert-issuer').value = 'Google';
+    cert1.querySelector('.cert-date').value = 'Mar 2024';
+    
+    addCertification();
+    let cert2 = document.querySelectorAll('.certification-item')[1];
+    cert2.querySelector('.cert-name').value = 'HubSpot Inbound Marketing Certification';
+    cert2.querySelector('.cert-issuer').value = 'HubSpot Academy';
+    cert2.querySelector('.cert-date').value = 'Jan 2024';
+    
+    addCertification();
+    let cert3 = document.querySelectorAll('.certification-item')[2];
+    cert3.querySelector('.cert-name').value = 'SEMrush SEO Fundamentals';
+    cert3.querySelector('.cert-issuer').value = 'SEMrush Academy';
+    cert3.querySelector('.cert-date').value = 'Nov 2023';
+    
+    // Generate preview
+    generatePreview();
+}
+
 // Generate CV Preview
 function generatePreview() {
     // Get personal information
