@@ -606,6 +606,12 @@ function generatePreview() {
         document.getElementById('cvPage2').innerHTML = '';
         document.getElementById('paginationControls').style.display = 'none';
     }
+    
+    // Scroll to preview section smoothly
+    setTimeout(() => {
+        const previewSection = document.querySelector('.preview-section');
+        previewSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
 }
 
 // Show specific CV page
