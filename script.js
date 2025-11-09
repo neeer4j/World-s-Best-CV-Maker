@@ -681,6 +681,8 @@ function downloadPDF() {
     const pdfContainer = document.createElement('div');
     pdfContainer.style.background = '#fff';
     pdfContainer.style.color = '#000';
+    pdfContainer.style.width = '210mm';  // A4 width
+    pdfContainer.style.margin = '0 auto';
     
     // Clone page 1
     const clonedPage1 = cvPage1.cloneNode(true);
@@ -691,17 +693,24 @@ function downloadPDF() {
     clonedPage1.style.wordWrap = 'break-word';
     clonedPage1.style.overflowWrap = 'break-word';
     clonedPage1.style.whiteSpace = 'normal';
+    clonedPage1.style.aspectRatio = 'unset';  // Remove aspect ratio constraint
+    clonedPage1.style.minHeight = 'auto';
+    clonedPage1.style.height = 'auto';
     pdfContainer.appendChild(clonedPage1);
     
     // Clone page 2 if it has content
     if (cvPage2.innerHTML.trim() && !cvPage2.querySelector('.placeholder-text')) {
         const clonedPage2 = cvPage2.cloneNode(true);
+        clonedPage2.style.pageBreakAfter = 'always';
         clonedPage2.style.background = '#fff';
         clonedPage2.style.color = '#000';
         clonedPage2.style.padding = '20px';
         clonedPage2.style.wordWrap = 'break-word';
         clonedPage2.style.overflowWrap = 'break-word';
         clonedPage2.style.whiteSpace = 'normal';
+        clonedPage2.style.aspectRatio = 'unset';  // Remove aspect ratio constraint
+        clonedPage2.style.minHeight = 'auto';
+        clonedPage2.style.height = 'auto';
         pdfContainer.appendChild(clonedPage2);
     }
     
@@ -735,7 +744,8 @@ function downloadPDF() {
             scale: 2, 
             useCORS: true,
             backgroundColor: '#ffffff',
-            allowTaint: true
+            allowTaint: true,
+            windowWidth: 794  // A4 width in pixels
         },
         jsPDF: { 
             unit: 'cm', 
