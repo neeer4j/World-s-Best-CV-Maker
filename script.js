@@ -647,68 +647,24 @@ function downloadPDF() {
     const fullName = document.getElementById('fullName').value.trim() || 'CV';
     const filename = `${fullName.replace(/\s+/g, '_')}_CV.pdf`;
     
-    // Create a wrapper for PDF
-    const pdfWrapper = document.createElement('div');
-    pdfWrapper.style.width = '210mm';
-    pdfWrapper.style.minHeight = '297mm';
-    pdfWrapper.style.padding = '15mm';
-    pdfWrapper.style.background = '#ffffff';
-    pdfWrapper.style.color = '#000000';
-    pdfWrapper.style.fontFamily = "'Inter', sans-serif";
-    pdfWrapper.style.fontSize = '12px';
-    pdfWrapper.style.lineHeight = '1.4';
-    pdfWrapper.style.boxSizing = 'border-box';
-    
-    // Clone and append content
-    const clonedContent = cvPage1.cloneNode(true);
-    clonedContent.style.width = '100%';
-    clonedContent.style.height = 'auto';
-    
-    // Remove any aspect ratio or min-height constraints
-    clonedContent.style.aspectRatio = 'unset';
-    clonedContent.style.minHeight = 'unset';
-    clonedContent.style.maxHeight = 'none';
-    
-    pdfWrapper.appendChild(clonedContent);
-    
-    // Temporarily add to document (needed for html2canvas)
-    document.body.appendChild(pdfWrapper);
-    pdfWrapper.style.position = 'absolute';
-    pdfWrapper.style.left = '-9999px';
-    pdfWrapper.style.top = '0';
-    
-    // PDF options
+    // PDF options - simple and direct
     const opt = {
-        margin: 0,
+        margin: 10,
         filename: filename,
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { 
             scale: 2,
             useCORS: true,
-            backgroundColor: '#ffffff',
-            logging: false,
-            windowWidth: 794,
-            scrollY: 0,
-            scrollX: 0
+            backgroundColor: '#ffffff'
         },
         jsPDF: { 
             unit: 'mm', 
             format: 'a4', 
-            orientation: 'portrait',
-            compress: true
+            orientation: 'portrait'
         },
-        pagebreak: { 
-            mode: ['avoid-all', 'css'],
-            before: '.cv-section',
-            avoid: ['.cv-experience-item', '.cv-education-item', '.cv-certification-item']
-        }
+        pagebreak: { mode: 'css' }
     };
     
-    // Generate PDF and cleanup
-    html2pdf().set(opt).from(pdfWrapper).save().then(() => {
-        document.body.removeChild(pdfWrapper);
-    }).catch((error) => {
-        console.error('PDF generation error:', error);
-        document.body.removeChild(pdfWrapper);
-    });
+    // Generate PDF directly from the element
+    html2pdf().set(opt).from(cvPage1).save();
 }
