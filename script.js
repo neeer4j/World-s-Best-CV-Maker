@@ -469,7 +469,7 @@ function generatePreview() {
     
     // Add photo if uploaded
     if (uploadedPhoto) {
-        cvHTML += `<div class="cv-photo-display"><img src="${uploadedPhoto}" alt="Profile Photo" style="width: 100px; height: 100px; border-radius: 4px; margin-bottom: 10px; object-fit: cover;"></div>`;
+        cvHTML += `<div class="cv-photo-display"><img src="${uploadedPhoto}" alt="Profile Photo" style="width: 80px; height: 80px; border-radius: 3px; margin-bottom: 8px; object-fit: cover;"></div>`;
     }
     
     cvHTML += `
@@ -523,9 +523,9 @@ function generatePreview() {
     let currentPageContent = page1HTML;
     let page1Complete = false;
     
-    // Estimated content height for page splitting (rough estimate)
-    let page1Height = 300; // pixels, approximate header height
-    const pageMaxHeight = 850; // A4 height in pixels approximately
+    // More accurate page height calculation (A4 = 297mm, with margins = ~240mm = ~900px at 96dpi)
+    let page1Height = 200; // pixels, approximate header height
+    const pageMaxHeight = 880; // A4 height in pixels approximately (997mm height - margins)
     
     sections.forEach((section, index) => {
         let sectionHTML = `
@@ -536,7 +536,7 @@ function generatePreview() {
         switch(section.type) {
             case 'summary':
                 sectionHTML += `<div class="cv-summary">${escapeHtml(section.content)}</div>`;
-                page1Height += 80;
+                page1Height += 70;
                 break;
                 
             case 'experience':
@@ -550,7 +550,7 @@ function generatePreview() {
                         </div>
                     `;
                 });
-                page1Height += section.items.length * 100;
+                page1Height += section.items.length * 90;
                 break;
                 
             case 'education':
@@ -563,12 +563,12 @@ function generatePreview() {
                         </div>
                     `;
                 });
-                page1Height += section.items.length * 60;
+                page1Height += section.items.length * 55;
                 break;
                 
             case 'skills':
                 sectionHTML += `<div class="cv-skills">${escapeHtml(section.content)}</div>`;
-                page1Height += 80;
+                page1Height += 70;
                 break;
                 
             case 'certifications':
@@ -580,7 +580,7 @@ function generatePreview() {
                         </div>
                     `;
                 });
-                page1Height += section.items.length * 50;
+                page1Height += section.items.length * 45;
                 break;
         }
         
@@ -688,10 +688,11 @@ function downloadPDF() {
     const clonedPage1 = cvPage1.cloneNode(true);
     clonedPage1.style.background = '#fff';
     clonedPage1.style.color = '#000';
-    clonedPage1.style.padding = '15px';
+    clonedPage1.style.padding = '12mm';
     clonedPage1.style.wordWrap = 'break-word';
     clonedPage1.style.overflowWrap = 'break-word';
     clonedPage1.style.whiteSpace = 'normal';
+    clonedPage1.style.pageBreakAfter = 'always';
     clonedPage1.style.aspectRatio = 'unset';
     clonedPage1.style.minHeight = 'auto';
     clonedPage1.style.height = 'auto';
@@ -701,42 +702,35 @@ function downloadPDF() {
     // Clone page 2 if it has content
     const hasPage2 = cvPage2 && cvPage2.innerHTML.trim() && !cvPage2.querySelector('.placeholder-text');
     if (hasPage2) {
-        // Add page break between pages
-        const pageBreak = document.createElement('div');
-        pageBreak.style.pageBreakBefore = 'always';
-        pdfContainer.appendChild(pageBreak);
-        
         const clonedPage2 = cvPage2.cloneNode(true);
         clonedPage2.style.background = '#fff';
         clonedPage2.style.color = '#000';
-        clonedPage2.style.padding = '15px';
+        clonedPage2.style.padding = '12mm';
         clonedPage2.style.wordWrap = 'break-word';
         clonedPage2.style.overflowWrap = 'break-word';
         clonedPage2.style.whiteSpace = 'normal';
+        clonedPage2.style.pageBreakBefore = 'always';
         clonedPage2.style.aspectRatio = 'unset';
         clonedPage2.style.minHeight = 'auto';
         clonedPage2.style.height = 'auto';
         pdfContainer.appendChild(clonedPage2);
     }
     
-    // Ensure all text is black in the cloned versions
-    pdfContainer.querySelectorAll('[class*="cv-"]').forEach(el => {
+    // Ensure all text is black and properly wrapped
+    pdfContainer.querySelectorAll('*').forEach(el => {
         el.style.wordWrap = 'break-word';
         el.style.overflowWrap = 'break-word';
         el.style.whiteSpace = 'normal';
         
+        // Ensure proper text color inheritance
         if (el.classList.contains('cv-name') || 
             el.classList.contains('cv-section-title') ||
             el.classList.contains('cv-job-title') ||
             el.classList.contains('cv-degree')) {
-            el.style.color = '#000';
-        } else if (el.classList.contains('cv-contact') ||
-                   el.classList.contains('cv-company') ||
-                   el.classList.contains('cv-school') ||
-                   el.classList.contains('cv-date')) {
-            el.style.color = '#333';
-        } else {
-            el.style.color = '#000';
+            el.style.color = '#000 !important';
+        } else if (el.classList.contains('cv-company') ||
+                   el.classList.contains('cv-school')) {
+            el.style.color = '#333 !important';
         }
     });
     
@@ -750,17 +744,22 @@ function downloadPDF() {
             useCORS: true,
             backgroundColor: '#ffffff',
             allowTaint: true,
-            windowWidth: 794,  // A4 width in pixels
-            logging: false
+            windowWidth: 794,  // A4 width in pixels (210mm)
+            logging: false,
+            imageTimeout: 0
         },
         jsPDF: { 
             unit: 'mm', 
             format: 'a4', 
             orientation: 'portrait',
             compress: true,
-            precision: 10
+            precision: 10,
+            userUnit: 1
         },
-        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+        pagebreak: { 
+            mode: ['avoid-all', 'css', 'legacy'],
+            after: '.cv-section'
+        }
     };
     
     // Generate and download PDF with both pages

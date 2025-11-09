@@ -840,3 +840,48 @@ small {
         color: #000;
     }
 }
+
+/* Print and PDF export styles */
+@media print {
+    body {
+        margin: 0;
+        padding: 0;
+    }
+    
+    #cvPage1, #cvPage2 {
+        page-break-after: always !important;
+        margin: 0 !important;
+        padding: 12mm !important;
+        width: 210mm !important;
+        min-height: 297mm !important;
+        background: white !important;
+        color: black !important;
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+    }
+    
+    #cvPage2 {
+        page-break-before: always !important;
+    }
+    
+    .cv-section {
+        page-break-inside: avoid !important;
+    }
+    
+    .cv-experience-item,
+    .cv-education-item,
+    .cv-certification-item {
+        page-break-inside: avoid !important;
+    }
+    
+    * {
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+        white-space: normal !important;
+    }
+}
+
+@page {
+    margin: 10mm;
+    size: A4 portrait;
+}
