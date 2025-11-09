@@ -207,6 +207,7 @@ function clearForm() {
 function generatePreview() {
     // Get personal information
     const fullName = document.getElementById('fullName').value.trim();
+    const titleLine = document.getElementById('titleLine').value.trim();
     const email = document.getElementById('email').value.trim();
     const phone = document.getElementById('phone').value.trim();
     const location = document.getElementById('location').value.trim();
@@ -215,136 +216,184 @@ function generatePreview() {
     const summary = document.getElementById('summary').value.trim();
     const skills = document.getElementById('skills').value.trim();
     
-    // Start building CV HTML
-    let cvHTML = '';
-    
-    // Only show header if at least name is provided
-    if (fullName || email || phone || location || linkedin || portfolio || uploadedPhoto) {
-        cvHTML += `
-        <div class="cv-header">
-            ${uploadedPhoto ? `<div class="cv-photo"><img src="${uploadedPhoto}" alt="Profile Photo"></div>` : ''}
-            <div class="cv-header-content">
-                ${fullName ? `<div class="cv-name">${escapeHtml(fullName)}</div>` : ''}
-                <div class="cv-contact">
-                    ${email ? `<span>${escapeHtml(email)}</span>` : ''}
-                    ${phone ? `<span>${email ? '|' : ''}</span><span>${escapeHtml(phone)}</span>` : ''}
-                    ${location ? `<span>${email || phone ? '|' : ''}</span><span>${escapeHtml(location)}</span>` : ''}
-                    ${linkedin ? `<br><span>${escapeHtml(linkedin)}</span>` : ''}
-                    ${portfolio ? `<span>${linkedin ? ' | ' : ''}</span><span>${escapeHtml(portfolio)}</span>` : ''}
-                </div>
-            </div>
-        </div>
-    `;
-    }
+    // Collect all sections with their data
+    const sections = [];
     
     // Professional Summary
     if (summary) {
-        cvHTML += `
-            <div class="cv-section">
-                <div class="cv-section-title">Professional Summary</div>
-                <div class="cv-summary">${escapeHtml(summary)}</div>
-            </div>
-        `;
+        sections.push({
+            type: 'summary',
+            title: 'Professional Summary',
+            content: summary
+        });
     }
     
     // Work Experience
-    const experiences = document.querySelectorAll('.experience-item');
+    const experiences = [];
+    document.querySelectorAll('.experience-item').forEach(exp => {
+        const jobTitle = exp.querySelector('.job-title').value.trim();
+        const company = exp.querySelector('.company').value.trim();
+        const jobLocation = exp.querySelector('.job-location').value.trim();
+        const startDate = exp.querySelector('.start-date').value.trim();
+        const endDate = exp.querySelector('.end-date').value.trim();
+        const description = exp.querySelector('.job-description').value.trim();
+        
+        if (jobTitle && company) {
+            experiences.push({
+                jobTitle, company, jobLocation, startDate, endDate, description
+            });
+        }
+    });
+    
     if (experiences.length > 0) {
-        cvHTML += `
-            <div class="cv-section">
-                <div class="cv-section-title">Work Experience</div>
-        `;
-        
-        experiences.forEach(exp => {
-            const jobTitle = exp.querySelector('.job-title').value.trim();
-            const company = exp.querySelector('.company').value.trim();
-            const jobLocation = exp.querySelector('.job-location').value.trim();
-            const startDate = exp.querySelector('.start-date').value.trim();
-            const endDate = exp.querySelector('.end-date').value.trim();
-            const description = exp.querySelector('.job-description').value.trim();
-            
-            if (jobTitle && company) {
-                cvHTML += `
-                    <div class="cv-experience-item">
-                        <div class="cv-job-title">${escapeHtml(jobTitle)}</div>
-                        <div class="cv-company">${escapeHtml(company)}${jobLocation ? ', ' + escapeHtml(jobLocation) : ''}</div>
-                        <div class="cv-date">${escapeHtml(startDate)} - ${escapeHtml(endDate)}</div>
-                        ${description ? `<div class="cv-description">${formatBulletPoints(description)}</div>` : ''}
-                    </div>
-                `;
-            }
+        sections.push({
+            type: 'experience',
+            title: 'Work Experience',
+            items: experiences
         });
-        
-        cvHTML += `</div>`;
     }
     
     // Education
-    const educations = document.querySelectorAll('.education-item');
+    const educations = [];
+    document.querySelectorAll('.education-item').forEach(edu => {
+        const degree = edu.querySelector('.degree').value.trim();
+        const school = edu.querySelector('.school').value.trim();
+        const eduLocation = edu.querySelector('.edu-location').value.trim();
+        const gradDate = edu.querySelector('.grad-date').value.trim();
+        const gpa = edu.querySelector('.gpa').value.trim();
+        
+        if (degree && school) {
+            educations.push({
+                degree, school, eduLocation, gradDate, gpa
+            });
+        }
+    });
+    
     if (educations.length > 0) {
-        cvHTML += `
-            <div class="cv-section">
-                <div class="cv-section-title">Education</div>
-        `;
-        
-        educations.forEach(edu => {
-            const degree = edu.querySelector('.degree').value.trim();
-            const school = edu.querySelector('.school').value.trim();
-            const eduLocation = edu.querySelector('.edu-location').value.trim();
-            const gradDate = edu.querySelector('.grad-date').value.trim();
-            const gpa = edu.querySelector('.gpa').value.trim();
-            
-            if (degree && school) {
-                cvHTML += `
-                    <div class="cv-education-item">
-                        <div class="cv-degree">${escapeHtml(degree)}</div>
-                        <div class="cv-school">${escapeHtml(school)}${eduLocation ? ', ' + escapeHtml(eduLocation) : ''}</div>
-                        <div class="cv-date">${escapeHtml(gradDate)}${gpa ? ' | GPA: ' + escapeHtml(gpa) : ''}</div>
-                    </div>
-                `;
-            }
+        sections.push({
+            type: 'education',
+            title: 'Education',
+            items: educations
         });
-        
-        cvHTML += `</div>`;
     }
     
     // Skills
     if (skills) {
-        cvHTML += `
-            <div class="cv-section">
-                <div class="cv-section-title">Skills</div>
-                <div class="cv-skills">${escapeHtml(skills)}</div>
-            </div>
-        `;
+        sections.push({
+            type: 'skills',
+            title: 'Skills',
+            content: skills
+        });
     }
     
     // Certifications
-    const certifications = document.querySelectorAll('.certification-item');
+    const certifications = [];
+    document.querySelectorAll('.certification-item').forEach(cert => {
+        const certName = cert.querySelector('.cert-name').value.trim();
+        const certIssuer = cert.querySelector('.cert-issuer').value.trim();
+        const certDate = cert.querySelector('.cert-date').value.trim();
+        
+        if (certName && certIssuer) {
+            certifications.push({
+                certName, certIssuer, certDate
+            });
+        }
+    });
+    
     if (certifications.length > 0) {
-        cvHTML += `
-            <div class="cv-section">
-                <div class="cv-section-title">Certifications</div>
-        `;
-        
-        certifications.forEach(cert => {
-            const certName = cert.querySelector('.cert-name').value.trim();
-            const certIssuer = cert.querySelector('.cert-issuer').value.trim();
-            const certDate = cert.querySelector('.cert-date').value.trim();
-            
-            if (certName && certIssuer) {
-                cvHTML += `
-                    <div class="cv-certification-item">
-                        <div class="cv-job-title">${escapeHtml(certName)}</div>
-                        <div class="cv-company">${escapeHtml(certIssuer)}${certDate ? ' | ' + escapeHtml(certDate) : ''}</div>
-                    </div>
-                `;
-            }
+        sections.push({
+            type: 'certifications',
+            title: 'Certifications',
+            items: certifications
         });
-        
-        cvHTML += `</div>`;
     }
     
+    // Start building CV HTML
+    let cvHTML = '';
+    
+    // Header
+    cvHTML += `
+        <div class="cv-header">
+            ${fullName ? `<div class="cv-name">${escapeHtml(fullName)}</div>` : ''}
+            ${titleLine ? `<div class="cv-title-line">${escapeHtml(titleLine)}</div>` : ''}
+            <div class="cv-contact">
+    `;
+    
+    // Build contact info on single line with pipes
+    const contactParts = [];
+    if (location) contactParts.push(escapeHtml(location));
+    if (email) contactParts.push(escapeHtml(email));
+    if (phone) contactParts.push(escapeHtml(phone));
+    if (linkedin) contactParts.push(escapeHtml(linkedin));
+    if (portfolio) contactParts.push(escapeHtml(portfolio));
+    
+    if (contactParts.length > 0) {
+        cvHTML += contactParts.join(' | ');
+    }
+    
+    cvHTML += `
+            </div>
+        </div>
+    `;
+    
+    // Add all sections
+    sections.forEach(section => {
+        cvHTML += `
+            <div class="cv-section">
+                <div class="cv-section-title">${escapeHtml(section.title)}</div>
+        `;
+        
+        switch(section.type) {
+            case 'summary':
+                cvHTML += `<div class="cv-summary">${escapeHtml(section.content)}</div>`;
+                break;
+                
+            case 'experience':
+                section.items.forEach(exp => {
+                    cvHTML += `
+                        <div class="cv-experience-item">
+                            <div class="cv-job-title">${escapeHtml(exp.jobTitle)}</div>
+                            <div class="cv-company">${escapeHtml(exp.company)}${exp.jobLocation ? ', ' + escapeHtml(exp.jobLocation) : ''}</div>
+                            <div class="cv-date">${escapeHtml(exp.startDate)} - ${escapeHtml(exp.endDate)}</div>
+                            ${exp.description ? `<div class="cv-description">${formatBulletPoints(exp.description)}</div>` : ''}
+                        </div>
+                    `;
+                });
+                break;
+                
+            case 'education':
+                section.items.forEach(edu => {
+                    cvHTML += `
+                        <div class="cv-education-item">
+                            <div class="cv-degree">${escapeHtml(edu.degree)}</div>
+                            <div class="cv-school">${escapeHtml(edu.school)}${edu.eduLocation ? ', ' + escapeHtml(edu.eduLocation) : ''}</div>
+                            <div class="cv-date">${escapeHtml(edu.gradDate)}${edu.gpa ? ' | GPA: ' + escapeHtml(edu.gpa) : ''}</div>
+                        </div>
+                    `;
+                });
+                break;
+                
+            case 'skills':
+                cvHTML += `<div class="cv-skills">${escapeHtml(section.content)}</div>`;
+                break;
+                
+            case 'certifications':
+                section.items.forEach(cert => {
+                    cvHTML += `
+                        <div class="cv-certification-item">
+                            <div class="cv-job-title">${escapeHtml(cert.certName)}</div>
+                            <div class="cv-company">${escapeHtml(cert.certIssuer)}${cert.certDate ? ' | ' + escapeHtml(cert.certDate) : ''}</div>
+                        </div>
+                    `;
+                });
+                break;
+        }
+        
+        cvHTML += `</div>`;
+    });
+    
     // Update preview
-    document.getElementById('cvPreview').innerHTML = cvHTML;
+    document.getElementById('cvPreview').innerHTML = cvHTML || '<p class="placeholder-text">Please fill in at least some information to preview your CV.</p>';
 }
 
 // Format bullet points in descriptions
