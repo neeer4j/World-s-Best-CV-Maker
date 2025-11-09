@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATS-Friendly CV Maker</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>ATS-Friendly CV Maker</h1>
+            <p class="subtitle">Create a professional, ATS-optimized resume in minutes</p>
+        </header>
+
+        <div class="main-content">
+            <!-- Form Section -->
+            <div class="form-section">
+                <h2>Build Your CV</h2>
+                
+                <!-- Personal Information -->
+                <section class="form-group">
+                    <h3>Personal Information</h3>
+                    <input type="text" id="fullName" placeholder="Full Name *" required>
+                    <input type="email" id="email" placeholder="Email *" required>
+                    <input type="tel" id="phone" placeholder="Phone Number *" required>
+                    <input type="text" id="location" placeholder="City, State/Country">
+                    <input type="url" id="linkedin" placeholder="LinkedIn URL">
+                    <input type="url" id="portfolio" placeholder="Portfolio/Website URL">
+                </section>
+
+                <!-- Professional Summary -->
+                <section class="form-group">
+                    <h3>Professional Summary</h3>
+                    <textarea id="summary" placeholder="Write a brief professional summary (2-3 sentences)" rows="4"></textarea>
+                </section>
+
+                <!-- Work Experience -->
+                <section class="form-group">
+                    <h3>Work Experience</h3>
+                    <div id="experienceContainer"></div>
+                    <button type="button" class="add-btn" onclick="addExperience()">+ Add Experience</button>
+                </section>
+
+                <!-- Education -->
+                <section class="form-group">
+                    <h3>Education</h3>
+                    <div id="educationContainer"></div>
+                    <button type="button" class="add-btn" onclick="addEducation()">+ Add Education</button>
+                </section>
+
+                <!-- Skills -->
+                <section class="form-group">
+                    <h3>Skills</h3>
+                    <textarea id="skills" placeholder="Enter skills separated by commas (e.g., JavaScript, Python, Project Management)" rows="3"></textarea>
+                    <small>Tip: Include keywords from the job description</small>
+                </section>
+
+                <!-- Certifications (Optional) -->
+                <section class="form-group">
+                    <h3>Certifications (Optional)</h3>
+                    <div id="certificationContainer"></div>
+                    <button type="button" class="add-btn" onclick="addCertification()">+ Add Certification</button>
+                </section>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <button type="button" class="btn-primary" onclick="generatePreview()">Generate Preview</button>
+                    <button type="button" class="btn-secondary" onclick="clearForm()">Clear Form</button>
+                </div>
+            </div>
+
+            <!-- Preview Section -->
+            <div class="preview-section">
+                <div class="preview-header">
+                    <h2>CV Preview</h2>
+                    <button type="button" class="btn-download" onclick="downloadPDF()">Download PDF</button>
+                </div>
+                <div id="cvPreview" class="cv-preview">
+                    <p class="placeholder-text">Your CV preview will appear here. Fill in the form and click "Generate Preview".</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ATS Tips -->
+        <div class="tips-section">
+            <h3>📋 ATS Optimization Tips</h3>
+            <ul>
+                <li>Use standard section headings (Work Experience, Education, Skills)</li>
+                <li>Include relevant keywords from the job description</li>
+                <li>Use simple, clean formatting without images or graphics</li>
+                <li>Avoid tables, text boxes, and columns</li>
+                <li>Use standard fonts and bullet points</li>
+                <li>Save as PDF to preserve formatting</li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
