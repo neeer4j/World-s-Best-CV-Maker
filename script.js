@@ -7,7 +7,40 @@ let certificationCount = 0;
 document.addEventListener('DOMContentLoaded', () => {
     addExperience();
     addEducation();
+    
+    // Set dark mode as default
+    document.documentElement.removeAttribute('data-theme');
+    updateThemeIcon();
 });
+
+// Toggle Theme Function
+function toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const newTheme = currentTheme === 'light' ? null : 'light';
+    
+    if (newTheme === 'light') {
+        document.documentElement.setAttribute('data-theme', 'light');
+    } else {
+        document.documentElement.removeAttribute('data-theme');
+    }
+    
+    updateThemeIcon();
+    
+    // Save preference
+    localStorage.setItem('theme', newTheme || 'dark');
+}
+
+// Update Theme Icon
+function updateThemeIcon() {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const themeIcon = document.querySelector('.theme-icon');
+    
+    if (currentTheme === 'light') {
+        themeIcon.textContent = '🌙';
+    } else {
+        themeIcon.textContent = '☀️';
+    }
+}
 
 // Add Work Experience Entry
 function addExperience() {
