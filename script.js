@@ -445,9 +445,16 @@ function downloadPDF() {
     clonedPreview.style.background = '#fff';
     clonedPreview.style.color = '#000';
     clonedPreview.style.padding = '20px';
+    clonedPreview.style.wordWrap = 'break-word';
+    clonedPreview.style.overflowWrap = 'break-word';
+    clonedPreview.style.whiteSpace = 'normal';
     
     // Ensure all text is black in the cloned version
     clonedPreview.querySelectorAll('[class*="cv-"]').forEach(el => {
+        el.style.wordWrap = 'break-word';
+        el.style.overflowWrap = 'break-word';
+        el.style.whiteSpace = 'normal';
+        
         if (el.classList.contains('cv-name') || 
             el.classList.contains('cv-section-title') ||
             el.classList.contains('cv-job-title') ||
@@ -471,7 +478,8 @@ function downloadPDF() {
         html2canvas: { 
             scale: 2, 
             useCORS: true,
-            backgroundColor: '#ffffff'
+            backgroundColor: '#ffffff',
+            allowTaint: true
         },
         jsPDF: { 
             unit: 'cm', 
