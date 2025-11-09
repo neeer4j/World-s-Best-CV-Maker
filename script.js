@@ -686,29 +686,34 @@ function downloadPDF() {
     
     // Clone page 1
     const clonedPage1 = cvPage1.cloneNode(true);
-    clonedPage1.style.pageBreakAfter = 'always';
     clonedPage1.style.background = '#fff';
     clonedPage1.style.color = '#000';
-    clonedPage1.style.padding = '20px';
+    clonedPage1.style.padding = '15px';
     clonedPage1.style.wordWrap = 'break-word';
     clonedPage1.style.overflowWrap = 'break-word';
     clonedPage1.style.whiteSpace = 'normal';
-    clonedPage1.style.aspectRatio = 'unset';  // Remove aspect ratio constraint
+    clonedPage1.style.aspectRatio = 'unset';
     clonedPage1.style.minHeight = 'auto';
     clonedPage1.style.height = 'auto';
+    clonedPage1.style.marginBottom = '0px';
     pdfContainer.appendChild(clonedPage1);
     
     // Clone page 2 if it has content
-    if (cvPage2.innerHTML.trim() && !cvPage2.querySelector('.placeholder-text')) {
+    const hasPage2 = cvPage2 && cvPage2.innerHTML.trim() && !cvPage2.querySelector('.placeholder-text');
+    if (hasPage2) {
+        // Add page break between pages
+        const pageBreak = document.createElement('div');
+        pageBreak.style.pageBreakBefore = 'always';
+        pdfContainer.appendChild(pageBreak);
+        
         const clonedPage2 = cvPage2.cloneNode(true);
-        clonedPage2.style.pageBreakAfter = 'always';
         clonedPage2.style.background = '#fff';
         clonedPage2.style.color = '#000';
-        clonedPage2.style.padding = '20px';
+        clonedPage2.style.padding = '15px';
         clonedPage2.style.wordWrap = 'break-word';
         clonedPage2.style.overflowWrap = 'break-word';
         clonedPage2.style.whiteSpace = 'normal';
-        clonedPage2.style.aspectRatio = 'unset';  // Remove aspect ratio constraint
+        clonedPage2.style.aspectRatio = 'unset';
         clonedPage2.style.minHeight = 'auto';
         clonedPage2.style.height = 'auto';
         pdfContainer.appendChild(clonedPage2);
@@ -735,9 +740,9 @@ function downloadPDF() {
         }
     });
     
-    // PDF options for A4 format
+    // PDF options for A4 format with proper page handling
     const opt = {
-        margin: [0.5, 0.5, 0.5, 0.5],
+        margin: [10, 10, 10, 10],  // 10mm margins
         filename: filename,
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { 
@@ -745,16 +750,19 @@ function downloadPDF() {
             useCORS: true,
             backgroundColor: '#ffffff',
             allowTaint: true,
-            windowWidth: 794  // A4 width in pixels
+            windowWidth: 794,  // A4 width in pixels
+            logging: false
         },
         jsPDF: { 
-            unit: 'cm', 
+            unit: 'mm', 
             format: 'a4', 
             orientation: 'portrait',
-            compress: true
-        }
+            compress: true,
+            precision: 10
+        },
+        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
     };
     
-    // Generate and download PDF
+    // Generate and download PDF with both pages
     html2pdf().set(opt).from(pdfContainer).save();
 }
