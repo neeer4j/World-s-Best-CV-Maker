@@ -18,12 +18,12 @@ function addExperience() {
     
     experienceItem.innerHTML = `
         <button type="button" class="remove-btn" onclick="removeElement('experience-${experienceCount}')">×</button>
-        <input type="text" class="job-title" placeholder="Job Title *" required>
-        <input type="text" class="company" placeholder="Company Name *" required>
+        <input type="text" class="job-title" placeholder="Job Title">
+        <input type="text" class="company" placeholder="Company Name">
         <input type="text" class="job-location" placeholder="Location">
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-            <input type="text" class="start-date" placeholder="Start Date (e.g., Jan 2020)" required>
-            <input type="text" class="end-date" placeholder="End Date (e.g., Present)" required>
+            <input type="text" class="start-date" placeholder="Start Date (e.g., Jan 2020)">
+            <input type="text" class="end-date" placeholder="End Date (e.g., Present)">
         </div>
         <textarea class="job-description" placeholder="Describe your responsibilities and achievements. Use bullet points with - or •" rows="4"></textarea>
     `;
@@ -41,11 +41,11 @@ function addEducation() {
     
     educationItem.innerHTML = `
         <button type="button" class="remove-btn" onclick="removeElement('education-${educationCount}')">×</button>
-        <input type="text" class="degree" placeholder="Degree/Qualification *" required>
-        <input type="text" class="school" placeholder="School/University *" required>
+        <input type="text" class="degree" placeholder="Degree/Qualification">
+        <input type="text" class="school" placeholder="School/University">
         <input type="text" class="edu-location" placeholder="Location">
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-            <input type="text" class="grad-date" placeholder="Graduation Date (e.g., May 2020)" required>
+            <input type="text" class="grad-date" placeholder="Graduation Date (e.g., May 2020)">
             <input type="text" class="gpa" placeholder="GPA (Optional)">
         </div>
     `;
@@ -63,8 +63,8 @@ function addCertification() {
     
     certificationItem.innerHTML = `
         <button type="button" class="remove-btn" onclick="removeElement('certification-${certificationCount}')">×</button>
-        <input type="text" class="cert-name" placeholder="Certification Name *" required>
-        <input type="text" class="cert-issuer" placeholder="Issuing Organization *" required>
+        <input type="text" class="cert-name" placeholder="Certification Name">
+        <input type="text" class="cert-issuer" placeholder="Issuing Organization">
         <input type="text" class="cert-date" placeholder="Date Obtained (e.g., Dec 2023)">
     `;
     
@@ -119,25 +119,24 @@ function generatePreview() {
     const summary = document.getElementById('summary').value.trim();
     const skills = document.getElementById('skills').value.trim();
     
-    // Validate required fields
-    if (!fullName || !email || !phone) {
-        alert('Please fill in all required fields (Full Name, Email, Phone)');
-        return;
-    }
-    
     // Start building CV HTML
-    let cvHTML = `
+    let cvHTML = '';
+    
+    // Only show header if at least name is provided
+    if (fullName || email || phone || location || linkedin || portfolio) {
+        cvHTML += `
         <div class="cv-header">
-            <div class="cv-name">${escapeHtml(fullName)}</div>
+            ${fullName ? `<div class="cv-name">${escapeHtml(fullName)}</div>` : ''}
             <div class="cv-contact">
                 ${email ? `<span>${escapeHtml(email)}</span>` : ''}
-                ${phone ? `<span>|</span><span>${escapeHtml(phone)}</span>` : ''}
-                ${location ? `<span>|</span><span>${escapeHtml(location)}</span>` : ''}
+                ${phone ? `<span>${email ? '|' : ''}</span><span>${escapeHtml(phone)}</span>` : ''}
+                ${location ? `<span>${email || phone ? '|' : ''}</span><span>${escapeHtml(location)}</span>` : ''}
                 ${linkedin ? `<br><span>${escapeHtml(linkedin)}</span>` : ''}
                 ${portfolio ? `<span>${linkedin ? ' | ' : ''}</span><span>${escapeHtml(portfolio)}</span>` : ''}
             </div>
         </div>
     `;
+    }
     
     // Professional Summary
     if (summary) {
