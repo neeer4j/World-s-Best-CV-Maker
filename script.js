@@ -13,6 +13,18 @@ document.addEventListener('DOMContentLoaded', () => {
     document.documentElement.removeAttribute('data-theme');
     updateThemeIcon();
     
+    // Make first section expanded, others collapsed for compact view
+    const headers = document.querySelectorAll('.collapsible-header');
+    headers.forEach((header, index) => {
+        if (index !== 0) {
+            // Collapse all sections except the first one
+            const content = header.nextElementSibling;
+            if (content && content.classList.contains('form-content')) {
+                content.classList.add('collapsed');
+            }
+        }
+    });
+    
     // Add Enter key navigation to all input fields
     document.addEventListener('keydown', function(event) {
         if (event.key === 'Enter') {
@@ -37,6 +49,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+// Toggle form section collapse/expand
+function toggleSection(headerElement) {
+    const content = headerElement.nextElementSibling;
+    if (content && content.classList.contains('form-content')) {
+        content.classList.toggle('collapsed');
+    }
+}
 
 // Toggle Theme Function
 function toggleTheme() {

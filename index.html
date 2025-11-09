@@ -28,58 +28,69 @@
                 
                 <!-- Personal Information -->
                 <section class="form-group">
-                    <h3>Personal Information</h3>
-                    <div class="photo-upload-section">
-                        <div class="photo-preview" id="photoPreview">
-                            <span class="photo-placeholder">📷</span>
+                    <h3 class="collapsible-header" onclick="toggleSection(this)">📋 Personal Information</h3>
+                    <div class="form-content">
+                        <div class="photo-upload-section">
+                            <div class="photo-preview" id="photoPreview">
+                                <span class="photo-placeholder">📷</span>
+                            </div>
+                            <div class="photo-controls">
+                                <input type="file" id="photoInput" accept="image/*" style="display: none;" onchange="handlePhotoUpload(event)">
+                                <button type="button" class="add-btn photo-btn" onclick="document.getElementById('photoInput').click()">Upload Photo</button>
+                                <button type="button" class="remove-photo-btn" id="removePhotoBtn" onclick="removePhoto()" style="display: none;">Remove Photo</button>
+                            </div>
                         </div>
-                        <div class="photo-controls">
-                            <input type="file" id="photoInput" accept="image/*" style="display: none;" onchange="handlePhotoUpload(event)">
-                            <button type="button" class="add-btn photo-btn" onclick="document.getElementById('photoInput').click()">Upload Photo</button>
-                            <button type="button" class="remove-photo-btn" id="removePhotoBtn" onclick="removePhoto()" style="display: none;">Remove Photo</button>
-                        </div>
+                        <input type="text" id="fullName" placeholder="Full Name">
+                        <input type="text" id="titleLine" placeholder="Professional Title/Specialty (e.g., Digital Marketing | SEO | SEM)">
+                        <input type="email" id="email" placeholder="Email">
+                        <input type="tel" id="phone" placeholder="Phone Number">
+                        <input type="text" id="location" placeholder="City, State/Country">
+                        <input type="url" id="linkedin" placeholder="LinkedIn URL">
+                        <input type="url" id="portfolio" placeholder="Portfolio/Website URL">
                     </div>
-                    <input type="text" id="fullName" placeholder="Full Name">
-                    <input type="text" id="titleLine" placeholder="Professional Title/Specialty (e.g., Digital Marketing | SEO | SEM | Content Marketing)">
-                    <input type="email" id="email" placeholder="Email">
-                    <input type="tel" id="phone" placeholder="Phone Number">
-                    <input type="text" id="location" placeholder="City, State/Country">
-                    <input type="url" id="linkedin" placeholder="LinkedIn URL">
-                    <input type="url" id="portfolio" placeholder="Portfolio/Website URL">
                 </section>
 
                 <!-- Professional Summary -->
                 <section class="form-group">
-                    <h3>Professional Summary</h3>
-                    <textarea id="summary" placeholder="Write a brief professional summary (2-3 sentences)" rows="4"></textarea>
+                    <h3 class="collapsible-header" onclick="toggleSection(this)">📝 Professional Summary</h3>
+                    <div class="form-content">
+                        <textarea id="summary" placeholder="Write a brief professional summary (2-3 sentences)" rows="3"></textarea>
+                    </div>
                 </section>
 
                 <!-- Work Experience -->
                 <section class="form-group">
-                    <h3>Work Experience</h3>
-                    <div id="experienceContainer"></div>
-                    <button type="button" class="add-btn" onclick="addExperience()">+ Add Experience</button>
+                    <h3 class="collapsible-header" onclick="toggleSection(this)">💼 Work Experience</h3>
+                    <div class="form-content">
+                        <div id="experienceContainer"></div>
+                        <button type="button" class="add-btn" onclick="addExperience()">+ Add Experience</button>
+                    </div>
                 </section>
 
                 <!-- Education -->
                 <section class="form-group">
-                    <h3>Education</h3>
-                    <div id="educationContainer"></div>
-                    <button type="button" class="add-btn" onclick="addEducation()">+ Add Education</button>
+                    <h3 class="collapsible-header" onclick="toggleSection(this)">🎓 Education</h3>
+                    <div class="form-content">
+                        <div id="educationContainer"></div>
+                        <button type="button" class="add-btn" onclick="addEducation()">+ Add Education</button>
+                    </div>
                 </section>
 
                 <!-- Skills -->
                 <section class="form-group">
-                    <h3>Skills</h3>
-                    <textarea id="skills" placeholder="Enter skills separated by commas (e.g., JavaScript, Python, Project Management)" rows="3"></textarea>
-                    <small>Tip: Include keywords from the job description</small>
+                    <h3 class="collapsible-header" onclick="toggleSection(this)">⚡ Skills</h3>
+                    <div class="form-content">
+                        <textarea id="skills" placeholder="Enter skills separated by commas (e.g., JavaScript, Python, Project Management)" rows="2"></textarea>
+                    </div>
                 </section>
 
                 <!-- Certifications (Optional) -->
                 <section class="form-group">
-                    <h3>Certifications</h3>
-                    <div id="certificationContainer"></div>
-                    <button type="button" class="add-btn" onclick="addCertification()">+ Add Certification</button>
+                    <h3 class="collapsible-header" onclick="toggleSection(this)">🏆 Certifications</h3>
+                    <div class="form-content">
+                        <div id="certificationContainer"></div>
+                        <button type="button" class="add-btn" onclick="addCertification()">+ Add Certification</button>
+                    </div>
                 </section>
 
                 <!-- Action Buttons -->

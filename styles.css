@@ -205,6 +205,44 @@ header h1 {
     border-bottom: none;
 }
 
+.collapsible-header {
+    font-family: 'Inter', sans-serif;
+    color: var(--text-primary);
+    margin-bottom: 15px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+    padding: 10px;
+    margin: -10px -10px 15px -10px;
+    border-radius: 3px;
+}
+
+.collapsible-header:hover {
+    background: var(--bg-tertiary);
+}
+
+.form-content {
+    display: block;
+    overflow: visible;
+    max-height: 2000px;
+    transition: max-height 0.3s ease, opacity 0.3s ease;
+    opacity: 1;
+}
+
+.form-content.collapsed {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    margin-bottom: 0;
+}
+
 .form-group h3 {
     font-family: 'Inter', sans-serif;
     color: var(--text-primary);
