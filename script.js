@@ -517,31 +517,21 @@ function generatePreview() {
         </div>
     `;
     
-    // Add sections and split between pages
-    let page1HTML = cvHTML;
-    let page2HTML = '';
-    let currentPageContent = page1HTML;
-    let page1Complete = false;
-    
-    // More accurate page height calculation (A4 = 297mm, with margins = ~240mm = ~900px at 96dpi)
-    let page1Height = 200; // pixels, approximate header height
-    const pageMaxHeight = 880; // A4 height in pixels approximately (997mm height - margins)
-    
-    sections.forEach((section, index) => {
-        let sectionHTML = `
+    // Build all sections as continuous content (no artificial page splitting)
+    sections.forEach((section) => {
+        cvHTML += `
             <div class="cv-section">
                 <div class="cv-section-title">${escapeHtml(section.title)}</div>
         `;
         
         switch(section.type) {
             case 'summary':
-                sectionHTML += `<div class="cv-summary">${escapeHtml(section.content)}</div>`;
-                page1Height += 70;
+                cvHTML += `<div class="cv-summary">${escapeHtml(section.content)}</div>`;
                 break;
                 
             case 'experience':
                 section.items.forEach(exp => {
-                    sectionHTML += `
+                    cvHTML += `
                         <div class="cv-experience-item">
                             <div class="cv-job-title">${escapeHtml(exp.jobTitle)}</div>
                             <div class="cv-company">${escapeHtml(exp.company)}${exp.jobLocation ? ', ' + escapeHtml(exp.jobLocation) : ''}</div>
@@ -550,12 +540,11 @@ function generatePreview() {
                         </div>
                     `;
                 });
-                page1Height += section.items.length * 90;
                 break;
                 
             case 'education':
                 section.items.forEach(edu => {
-                    sectionHTML += `
+                    cvHTML += `
                         <div class="cv-education-item">
                             <div class="cv-degree">${escapeHtml(edu.degree)}</div>
                             <div class="cv-school">${escapeHtml(edu.school)}${edu.eduLocation ? ', ' + escapeHtml(edu.eduLocation) : ''}</div>
@@ -563,49 +552,31 @@ function generatePreview() {
                         </div>
                     `;
                 });
-                page1Height += section.items.length * 55;
                 break;
                 
             case 'skills':
-                sectionHTML += `<div class="cv-skills">${escapeHtml(section.content)}</div>`;
-                page1Height += 70;
+                cvHTML += `<div class="cv-skills">${escapeHtml(section.content)}</div>`;
                 break;
                 
             case 'certifications':
                 section.items.forEach(cert => {
-                    sectionHTML += `
+                    cvHTML += `
                         <div class="cv-certification-item">
                             <div class="cv-job-title">${escapeHtml(cert.certName)}</div>
                             <div class="cv-company">${escapeHtml(cert.certIssuer)}${cert.certDate ? ' | ' + escapeHtml(cert.certDate) : ''}</div>
                         </div>
                     `;
                 });
-                page1Height += section.items.length * 45;
                 break;
         }
         
-        sectionHTML += `</div>`;
-        
-        // Decide which page to put content on
-        if (!page1Complete && page1Height < pageMaxHeight) {
-            page1HTML += sectionHTML;
-        } else {
-            page1Complete = true;
-            page2HTML += sectionHTML;
-        }
+        cvHTML += `</div>`;
     });
     
-    // Update preview pages
-    document.getElementById('cvPage1').innerHTML = page1HTML || '<p class="placeholder-text">Please fill in at least some information to preview your CV.</p>';
-    
-    // Show pagination only if there's content on page 2
-    if (page2HTML.trim()) {
-        document.getElementById('cvPage2').innerHTML = page2HTML;
-        document.getElementById('paginationControls').style.display = 'flex';
-    } else {
-        document.getElementById('cvPage2').innerHTML = '';
-        document.getElementById('paginationControls').style.display = 'none';
-    }
+    // Update preview - show all content on page 1, hide page 2 controls
+    document.getElementById('cvPage1').innerHTML = cvHTML || '<p class="placeholder-text">Please fill in at least some information to preview your CV.</p>';
+    document.getElementById('cvPage2').innerHTML = '';
+    document.getElementById('paginationControls').style.display = 'none';
     
     // Scroll to preview section smoothly
     setTimeout(() => {
@@ -666,7 +637,6 @@ function escapeHtml(text) {
 // Download CV as PDF
 function downloadPDF() {
     const cvPage1 = document.getElementById('cvPage1');
-    const cvPage2 = document.getElementById('cvPage2');
     
     // Check if CV has been generated
     if (cvPage1.querySelector('.placeholder-text')) {
@@ -677,91 +647,35 @@ function downloadPDF() {
     const fullName = document.getElementById('fullName').value.trim() || 'CV';
     const filename = `${fullName.replace(/\s+/g, '_')}_CV.pdf`;
     
-    // Create a container for all pages
-    const pdfContainer = document.createElement('div');
-    pdfContainer.style.background = '#fff';
-    pdfContainer.style.color = '#000';
-    pdfContainer.style.width = '210mm';  // A4 width
-    pdfContainer.style.margin = '0 auto';
+    // Clone the CV content
+    const clonedContent = cvPage1.cloneNode(true);
+    clonedContent.style.width = '210mm';
+    clonedContent.style.padding = '15mm';
+    clonedContent.style.background = '#fff';
+    clonedContent.style.color = '#000';
+    clonedContent.style.margin = '0';
+    clonedContent.style.boxSizing = 'border-box';
     
-    // Clone page 1
-    const clonedPage1 = cvPage1.cloneNode(true);
-    clonedPage1.style.background = '#fff';
-    clonedPage1.style.color = '#000';
-    clonedPage1.style.padding = '12mm';
-    clonedPage1.style.wordWrap = 'break-word';
-    clonedPage1.style.overflowWrap = 'break-word';
-    clonedPage1.style.whiteSpace = 'normal';
-    clonedPage1.style.pageBreakAfter = 'always';
-    clonedPage1.style.aspectRatio = 'unset';
-    clonedPage1.style.minHeight = 'auto';
-    clonedPage1.style.height = 'auto';
-    clonedPage1.style.marginBottom = '0px';
-    pdfContainer.appendChild(clonedPage1);
-    
-    // Clone page 2 if it has content
-    const hasPage2 = cvPage2 && cvPage2.innerHTML.trim() && !cvPage2.querySelector('.placeholder-text');
-    if (hasPage2) {
-        const clonedPage2 = cvPage2.cloneNode(true);
-        clonedPage2.style.background = '#fff';
-        clonedPage2.style.color = '#000';
-        clonedPage2.style.padding = '12mm';
-        clonedPage2.style.wordWrap = 'break-word';
-        clonedPage2.style.overflowWrap = 'break-word';
-        clonedPage2.style.whiteSpace = 'normal';
-        clonedPage2.style.pageBreakBefore = 'always';
-        clonedPage2.style.aspectRatio = 'unset';
-        clonedPage2.style.minHeight = 'auto';
-        clonedPage2.style.height = 'auto';
-        pdfContainer.appendChild(clonedPage2);
-    }
-    
-    // Ensure all text is black and properly wrapped
-    pdfContainer.querySelectorAll('*').forEach(el => {
-        el.style.wordWrap = 'break-word';
-        el.style.overflowWrap = 'break-word';
-        el.style.whiteSpace = 'normal';
-        
-        // Ensure proper text color inheritance
-        if (el.classList.contains('cv-name') || 
-            el.classList.contains('cv-section-title') ||
-            el.classList.contains('cv-job-title') ||
-            el.classList.contains('cv-degree')) {
-            el.style.color = '#000 !important';
-        } else if (el.classList.contains('cv-company') ||
-                   el.classList.contains('cv-school')) {
-            el.style.color = '#333 !important';
-        }
-    });
-    
-    // PDF options for A4 format with proper page handling
+    // PDF options - let html2pdf handle page breaks naturally
     const opt = {
-        margin: [10, 10, 10, 10],  // 10mm margins
+        margin: 0,  // We handle padding in the cloned content
         filename: filename,
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { 
-            scale: 2, 
+            scale: 2,
             useCORS: true,
             backgroundColor: '#ffffff',
-            allowTaint: true,
-            windowWidth: 794,  // A4 width in pixels (210mm)
             logging: false,
-            imageTimeout: 0
+            windowWidth: 794
         },
         jsPDF: { 
             unit: 'mm', 
             format: 'a4', 
-            orientation: 'portrait',
-            compress: true,
-            precision: 10,
-            userUnit: 1
+            orientation: 'portrait'
         },
-        pagebreak: { 
-            mode: ['avoid-all', 'css', 'legacy'],
-            after: '.cv-section'
-        }
+        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
     };
     
-    // Generate and download PDF with both pages
-    html2pdf().set(opt).from(pdfContainer).save();
+    // Generate and download PDF
+    html2pdf().set(opt).from(clonedContent).save();
 }
