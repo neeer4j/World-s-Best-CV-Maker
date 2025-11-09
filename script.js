@@ -12,6 +12,30 @@ document.addEventListener('DOMContentLoaded', () => {
     // Set dark mode as default
     document.documentElement.removeAttribute('data-theme');
     updateThemeIcon();
+    
+    // Add Enter key navigation to all input fields
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            // Don't submit on Enter for textarea (allow line breaks)
+            if (event.target.tagName === 'TEXTAREA') {
+                return;
+            }
+            
+            event.preventDefault();
+            
+            // Get all form inputs (text, email, tel, url, textarea)
+            const allInputs = Array.from(document.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], input[type="url"], textarea'));
+            const currentIndex = allInputs.indexOf(event.target);
+            
+            // Move to next input or first input if at end
+            if (currentIndex !== -1 && currentIndex < allInputs.length - 1) {
+                allInputs[currentIndex + 1].focus();
+            } else if (currentIndex === allInputs.length - 1) {
+                // At the end, go back to first input
+                allInputs[0].focus();
+            }
+        }
+    });
 });
 
 // Toggle Theme Function
