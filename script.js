@@ -647,27 +647,49 @@ function downloadPDF() {
     const fullName = document.getElementById('fullName').value.trim() || 'CV';
     const filename = `${fullName.replace(/\s+/g, '_')}_CV.pdf`;
     
-    // Clone the CV content
-    const clonedContent = cvPage1.cloneNode(true);
-    clonedContent.style.width = '210mm';
-    clonedContent.style.padding = '10mm';
-    clonedContent.style.background = '#fff';
-    clonedContent.style.color = '#000';
-    clonedContent.style.margin = '0';
-    clonedContent.style.boxSizing = 'border-box';
+    // Create a wrapper for PDF
+    const pdfWrapper = document.createElement('div');
+    pdfWrapper.style.width = '210mm';
+    pdfWrapper.style.minHeight = '297mm';
+    pdfWrapper.style.padding = '15mm';
+    pdfWrapper.style.background = '#ffffff';
+    pdfWrapper.style.color = '#000000';
+    pdfWrapper.style.fontFamily = "'Inter', sans-serif";
+    pdfWrapper.style.fontSize = '12px';
+    pdfWrapper.style.lineHeight = '1.4';
+    pdfWrapper.style.boxSizing = 'border-box';
     
-    // PDF options - enable automatic page breaks
+    // Clone and append content
+    const clonedContent = cvPage1.cloneNode(true);
+    clonedContent.style.width = '100%';
+    clonedContent.style.height = 'auto';
+    
+    // Remove any aspect ratio or min-height constraints
+    clonedContent.style.aspectRatio = 'unset';
+    clonedContent.style.minHeight = 'unset';
+    clonedContent.style.maxHeight = 'none';
+    
+    pdfWrapper.appendChild(clonedContent);
+    
+    // Temporarily add to document (needed for html2canvas)
+    document.body.appendChild(pdfWrapper);
+    pdfWrapper.style.position = 'absolute';
+    pdfWrapper.style.left = '-9999px';
+    pdfWrapper.style.top = '0';
+    
+    // PDF options
     const opt = {
-        margin: [0, 0, 0, 0],  // No margin, padding is in content
+        margin: 0,
         filename: filename,
-        image: { type: 'jpeg', quality: 0.95 },
+        image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { 
             scale: 2,
             useCORS: true,
             backgroundColor: '#ffffff',
             logging: false,
             windowWidth: 794,
-            letterRendering: true
+            scrollY: 0,
+            scrollX: 0
         },
         jsPDF: { 
             unit: 'mm', 
@@ -676,12 +698,17 @@ function downloadPDF() {
             compress: true
         },
         pagebreak: { 
-            mode: ['css', 'legacy'],
+            mode: ['avoid-all', 'css'],
             before: '.cv-section',
             avoid: ['.cv-experience-item', '.cv-education-item', '.cv-certification-item']
         }
     };
     
-    // Generate and download PDF
-    html2pdf().set(opt).from(clonedContent).save();
+    // Generate PDF and cleanup
+    html2pdf().set(opt).from(pdfWrapper).save().then(() => {
+        document.body.removeChild(pdfWrapper);
+    }).catch((error) => {
+        console.error('PDF generation error:', error);
+        document.body.removeChild(pdfWrapper);
+    });
 }
