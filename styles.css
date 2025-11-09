@@ -109,6 +109,34 @@ header {
     width: 50px;
 }
 
+.developer-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border: 2px solid var(--border-accent);
+    border-radius: 50%;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    background: transparent;
+}
+
+.developer-link:hover {
+    transform: scale(1.1);
+    background: var(--bg-tertiary);
+}
+
+.dev-icon {
+    font-size: 1.5rem;
+    filter: grayscale(100%);
+    transition: filter 0.3s ease;
+}
+
+.developer-link:hover .dev-icon {
+    filter: grayscale(0%);
+}
+
 header h1 {
     font-family: 'Playfair Display', serif;
     font-size: 3.5rem;
