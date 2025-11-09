@@ -404,9 +404,17 @@ function generatePreview() {
     // Start building CV HTML
     let cvHTML = '';
     
-    // Header
+    // Header with photo
     cvHTML += `
         <div class="cv-header">
+    `;
+    
+    // Add photo if uploaded
+    if (uploadedPhoto) {
+        cvHTML += `<div class="cv-photo-display"><img src="${uploadedPhoto}" alt="Profile Photo" style="width: 100px; height: 100px; border-radius: 4px; margin-bottom: 10px; object-fit: cover;"></div>`;
+    }
+    
+    cvHTML += `
             ${fullName ? `<div class="cv-name">${escapeHtml(fullName)}</div>` : ''}
             ${titleLine ? `<div class="cv-title-line">${escapeHtml(titleLine)}</div>` : ''}
             <div class="cv-contact">

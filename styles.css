@@ -516,6 +516,19 @@ small {
     display: none;
 }
 
+.cv-photo-display {
+    display: inline-block;
+    margin-bottom: 8px;
+}
+
+.cv-photo-display img {
+    width: 100px;
+    height: 100px;
+    border-radius: 4px;
+    object-fit: cover;
+    border: 1px solid #333;
+}
+
 .cv-name {
     font-family: 'Inter', sans-serif;
     font-size: 1.5rem;
