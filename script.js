@@ -650,30 +650,36 @@ function downloadPDF() {
     // Clone the CV content
     const clonedContent = cvPage1.cloneNode(true);
     clonedContent.style.width = '210mm';
-    clonedContent.style.padding = '15mm';
+    clonedContent.style.padding = '10mm';
     clonedContent.style.background = '#fff';
     clonedContent.style.color = '#000';
     clonedContent.style.margin = '0';
     clonedContent.style.boxSizing = 'border-box';
     
-    // PDF options - let html2pdf handle page breaks naturally
+    // PDF options - enable automatic page breaks
     const opt = {
-        margin: 0,  // We handle padding in the cloned content
+        margin: [0, 0, 0, 0],  // No margin, padding is in content
         filename: filename,
-        image: { type: 'jpeg', quality: 0.98 },
+        image: { type: 'jpeg', quality: 0.95 },
         html2canvas: { 
             scale: 2,
             useCORS: true,
             backgroundColor: '#ffffff',
             logging: false,
-            windowWidth: 794
+            windowWidth: 794,
+            letterRendering: true
         },
         jsPDF: { 
             unit: 'mm', 
             format: 'a4', 
-            orientation: 'portrait'
+            orientation: 'portrait',
+            compress: true
         },
-        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+        pagebreak: { 
+            mode: ['css', 'legacy'],
+            before: '.cv-section',
+            avoid: ['.cv-experience-item', '.cv-education-item', '.cv-certification-item']
+        }
     };
     
     // Generate and download PDF

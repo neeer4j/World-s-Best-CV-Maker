@@ -843,11 +843,15 @@ small {
 
 /* Page break helpers for PDF export */
 .cv-section {
-    page-break-inside: avoid;
+    page-break-inside: auto;
 }
 
 .cv-experience-item,
 .cv-education-item,
 .cv-certification-item {
     page-break-inside: avoid;
+}
+
+.cv-header {
+    page-break-after: avoid;
 }
