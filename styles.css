@@ -452,6 +452,48 @@ small {
     white-space: normal;
 }
 
+.cv-pages-container {
+    position: relative;
+}
+
+.cv-page {
+    margin-bottom: 0;
+}
+
+.pagination-controls {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+    padding: 15px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+}
+
+.page-btn {
+    background: var(--button-bg);
+    color: var(--button-text);
+    border: 2px solid var(--button-border);
+    padding: 10px 20px;
+    border-radius: 0;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    transition: all 0.2s ease;
+}
+
+.page-btn:hover {
+    background: var(--button-hover-bg);
+    transform: translateY(-1px);
+}
+
+.page-btn.active {
+    background: var(--button-hover-bg);
+    box-shadow: 0 2px 8px rgba(255, 255, 255, 0.15);
+}
+
 .placeholder-text {
     color: #666;
     text-align: center;

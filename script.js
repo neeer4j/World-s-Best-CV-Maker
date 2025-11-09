@@ -198,8 +198,10 @@ function clearForm() {
         addExperience();
         addEducation();
         
-        // Clear preview
-        document.getElementById('cvPreview').innerHTML = '<p class="placeholder-text">Your CV preview will appear here. Fill in the form and click "Generate Preview".</p>';
+        // Clear preview pages
+        document.getElementById('cvPage1').innerHTML = '<p class="placeholder-text">Your CV preview will appear here. Fill in the form and click "Generate Preview".</p>';
+        document.getElementById('cvPage2').innerHTML = '';
+        document.getElementById('paginationControls').style.display = 'none';
     }
 }
 
@@ -427,21 +429,31 @@ function generatePreview() {
         </div>
     `;
     
-    // Add all sections
-    sections.forEach(section => {
-        cvHTML += `
+    // Add sections and split between pages
+    let page1HTML = cvHTML;
+    let page2HTML = '';
+    let currentPageContent = page1HTML;
+    let page1Complete = false;
+    
+    // Estimated content height for page splitting (rough estimate)
+    let page1Height = 300; // pixels, approximate header height
+    const pageMaxHeight = 850; // A4 height in pixels approximately
+    
+    sections.forEach((section, index) => {
+        let sectionHTML = `
             <div class="cv-section">
                 <div class="cv-section-title">${escapeHtml(section.title)}</div>
         `;
         
         switch(section.type) {
             case 'summary':
-                cvHTML += `<div class="cv-summary">${escapeHtml(section.content)}</div>`;
+                sectionHTML += `<div class="cv-summary">${escapeHtml(section.content)}</div>`;
+                page1Height += 80;
                 break;
                 
             case 'experience':
                 section.items.forEach(exp => {
-                    cvHTML += `
+                    sectionHTML += `
                         <div class="cv-experience-item">
                             <div class="cv-job-title">${escapeHtml(exp.jobTitle)}</div>
                             <div class="cv-company">${escapeHtml(exp.company)}${exp.jobLocation ? ', ' + escapeHtml(exp.jobLocation) : ''}</div>
@@ -450,11 +462,12 @@ function generatePreview() {
                         </div>
                     `;
                 });
+                page1Height += section.items.length * 100;
                 break;
                 
             case 'education':
                 section.items.forEach(edu => {
-                    cvHTML += `
+                    sectionHTML += `
                         <div class="cv-education-item">
                             <div class="cv-degree">${escapeHtml(edu.degree)}</div>
                             <div class="cv-school">${escapeHtml(edu.school)}${edu.eduLocation ? ', ' + escapeHtml(edu.eduLocation) : ''}</div>
@@ -462,29 +475,69 @@ function generatePreview() {
                         </div>
                     `;
                 });
+                page1Height += section.items.length * 60;
                 break;
                 
             case 'skills':
-                cvHTML += `<div class="cv-skills">${escapeHtml(section.content)}</div>`;
+                sectionHTML += `<div class="cv-skills">${escapeHtml(section.content)}</div>`;
+                page1Height += 80;
                 break;
                 
             case 'certifications':
                 section.items.forEach(cert => {
-                    cvHTML += `
+                    sectionHTML += `
                         <div class="cv-certification-item">
                             <div class="cv-job-title">${escapeHtml(cert.certName)}</div>
                             <div class="cv-company">${escapeHtml(cert.certIssuer)}${cert.certDate ? ' | ' + escapeHtml(cert.certDate) : ''}</div>
                         </div>
                     `;
                 });
+                page1Height += section.items.length * 50;
                 break;
         }
         
-        cvHTML += `</div>`;
+        sectionHTML += `</div>`;
+        
+        // Decide which page to put content on
+        if (!page1Complete && page1Height < pageMaxHeight) {
+            page1HTML += sectionHTML;
+        } else {
+            page1Complete = true;
+            page2HTML += sectionHTML;
+        }
     });
     
-    // Update preview
-    document.getElementById('cvPreview').innerHTML = cvHTML || '<p class="placeholder-text">Please fill in at least some information to preview your CV.</p>';
+    // Update preview pages
+    document.getElementById('cvPage1').innerHTML = page1HTML || '<p class="placeholder-text">Please fill in at least some information to preview your CV.</p>';
+    
+    // Show pagination only if there's content on page 2
+    if (page2HTML.trim()) {
+        document.getElementById('cvPage2').innerHTML = page2HTML;
+        document.getElementById('paginationControls').style.display = 'flex';
+    } else {
+        document.getElementById('cvPage2').innerHTML = '';
+        document.getElementById('paginationControls').style.display = 'none';
+    }
+}
+
+// Show specific CV page
+function showCVPage(pageNum) {
+    const page1 = document.getElementById('cvPage1');
+    const page2 = document.getElementById('cvPage2');
+    const btn1 = document.querySelectorAll('.page-btn')[0];
+    const btn2 = document.querySelectorAll('.page-btn')[1];
+    
+    if (pageNum === 1) {
+        page1.style.display = 'block';
+        page2.style.display = 'none';
+        btn1.classList.add('active');
+        btn2.classList.remove('active');
+    } else {
+        page1.style.display = 'none';
+        page2.style.display = 'block';
+        btn1.classList.remove('active');
+        btn2.classList.add('active');
+    }
 }
 
 // Format bullet points in descriptions
@@ -518,10 +571,11 @@ function escapeHtml(text) {
 
 // Download CV as PDF
 function downloadPDF() {
-    const cvPreview = document.getElementById('cvPreview');
+    const cvPage1 = document.getElementById('cvPage1');
+    const cvPage2 = document.getElementById('cvPage2');
     
     // Check if CV has been generated
-    if (cvPreview.querySelector('.placeholder-text')) {
+    if (cvPage1.querySelector('.placeholder-text')) {
         alert('Please generate a CV preview first before downloading.');
         return;
     }
@@ -529,19 +583,36 @@ function downloadPDF() {
     const fullName = document.getElementById('fullName').value.trim() || 'CV';
     const filename = `${fullName.replace(/\s+/g, '_')}_CV.pdf`;
     
-    // Create a clone for PDF generation
-    const clonedPreview = cvPreview.cloneNode(true);
+    // Create a container for all pages
+    const pdfContainer = document.createElement('div');
+    pdfContainer.style.background = '#fff';
+    pdfContainer.style.color = '#000';
     
-    // Apply white background and black text styles for PDF
-    clonedPreview.style.background = '#fff';
-    clonedPreview.style.color = '#000';
-    clonedPreview.style.padding = '20px';
-    clonedPreview.style.wordWrap = 'break-word';
-    clonedPreview.style.overflowWrap = 'break-word';
-    clonedPreview.style.whiteSpace = 'normal';
+    // Clone page 1
+    const clonedPage1 = cvPage1.cloneNode(true);
+    clonedPage1.style.pageBreakAfter = 'always';
+    clonedPage1.style.background = '#fff';
+    clonedPage1.style.color = '#000';
+    clonedPage1.style.padding = '20px';
+    clonedPage1.style.wordWrap = 'break-word';
+    clonedPage1.style.overflowWrap = 'break-word';
+    clonedPage1.style.whiteSpace = 'normal';
+    pdfContainer.appendChild(clonedPage1);
     
-    // Ensure all text is black in the cloned version
-    clonedPreview.querySelectorAll('[class*="cv-"]').forEach(el => {
+    // Clone page 2 if it has content
+    if (cvPage2.innerHTML.trim() && !cvPage2.querySelector('.placeholder-text')) {
+        const clonedPage2 = cvPage2.cloneNode(true);
+        clonedPage2.style.background = '#fff';
+        clonedPage2.style.color = '#000';
+        clonedPage2.style.padding = '20px';
+        clonedPage2.style.wordWrap = 'break-word';
+        clonedPage2.style.overflowWrap = 'break-word';
+        clonedPage2.style.whiteSpace = 'normal';
+        pdfContainer.appendChild(clonedPage2);
+    }
+    
+    // Ensure all text is black in the cloned versions
+    pdfContainer.querySelectorAll('[class*="cv-"]').forEach(el => {
         el.style.wordWrap = 'break-word';
         el.style.overflowWrap = 'break-word';
         el.style.whiteSpace = 'normal';
@@ -581,5 +652,5 @@ function downloadPDF() {
     };
     
     // Generate and download PDF
-    html2pdf().set(opt).from(clonedPreview).save();
+    html2pdf().set(opt).from(pdfContainer).save();
 }

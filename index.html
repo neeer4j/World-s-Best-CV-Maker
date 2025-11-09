@@ -96,8 +96,17 @@
                     <h2>CV Preview</h2>
                     <button type="button" class="btn-download" onclick="downloadPDF()">Download PDF</button>
                 </div>
-                <div id="cvPreview" class="cv-preview">
-                    <p class="placeholder-text">Your CV preview will appear here. Fill in the form and click "Generate Preview".</p>
+                <div class="cv-pages-container">
+                    <div id="cvPage1" class="cv-preview cv-page">
+                        <p class="placeholder-text">Your CV preview will appear here. Fill in the form and click "Generate Preview".</p>
+                    </div>
+                    <div id="cvPage2" class="cv-preview cv-page" style="display: none;">
+                        <p class="placeholder-text">Additional content will appear here if needed.</p>
+                    </div>
+                </div>
+                <div class="pagination-controls" id="paginationControls" style="display: none;">
+                    <button type="button" class="page-btn" onclick="showCVPage(1)">Page 1</button>
+                    <button type="button" class="page-btn active" onclick="showCVPage(2)">Page 2</button>
                 </div>
             </div>
         </div>
