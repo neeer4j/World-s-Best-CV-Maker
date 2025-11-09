@@ -223,13 +223,15 @@ function generatePreview() {
         cvHTML += `
         <div class="cv-header">
             ${uploadedPhoto ? `<div class="cv-photo"><img src="${uploadedPhoto}" alt="Profile Photo"></div>` : ''}
-            ${fullName ? `<div class="cv-name">${escapeHtml(fullName)}</div>` : ''}
-            <div class="cv-contact">
-                ${email ? `<span>${escapeHtml(email)}</span>` : ''}
-                ${phone ? `<span>${email ? '|' : ''}</span><span>${escapeHtml(phone)}</span>` : ''}
-                ${location ? `<span>${email || phone ? '|' : ''}</span><span>${escapeHtml(location)}</span>` : ''}
-                ${linkedin ? `<br><span>${escapeHtml(linkedin)}</span>` : ''}
-                ${portfolio ? `<span>${linkedin ? ' | ' : ''}</span><span>${escapeHtml(portfolio)}</span>` : ''}
+            <div class="cv-header-content">
+                ${fullName ? `<div class="cv-name">${escapeHtml(fullName)}</div>` : ''}
+                <div class="cv-contact">
+                    ${email ? `<span>${escapeHtml(email)}</span>` : ''}
+                    ${phone ? `<span>${email ? '|' : ''}</span><span>${escapeHtml(phone)}</span>` : ''}
+                    ${location ? `<span>${email || phone ? '|' : ''}</span><span>${escapeHtml(location)}</span>` : ''}
+                    ${linkedin ? `<br><span>${escapeHtml(linkedin)}</span>` : ''}
+                    ${portfolio ? `<span>${linkedin ? ' | ' : ''}</span><span>${escapeHtml(portfolio)}</span>` : ''}
+                </div>
             </div>
         </div>
     `;
