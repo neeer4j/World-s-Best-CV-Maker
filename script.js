@@ -2,6 +2,7 @@
 let experienceCount = 0;
 let educationCount = 0;
 let certificationCount = 0;
+let uploadedPhoto = null;
 
 // Initialize the form with one experience and education entry
 document.addEventListener('DOMContentLoaded', () => {
@@ -59,6 +60,46 @@ function updateThemeIcon() {
     } else {
         themeIcon.textContent = '☀️';
     }
+}
+
+// Handle Photo Upload
+function handlePhotoUpload(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    
+    // Check if file is an image
+    if (!file.type.startsWith('image/')) {
+        alert('Please upload an image file');
+        return;
+    }
+    
+    // Check file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+        alert('Image size should be less than 5MB');
+        return;
+    }
+    
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        uploadedPhoto = e.target.result;
+        
+        // Show preview
+        const photoPreview = document.getElementById('photoPreview');
+        photoPreview.innerHTML = `<img src="${uploadedPhoto}" alt="Profile Photo">`;
+        
+        // Show remove button
+        document.getElementById('removePhotoBtn').style.display = 'block';
+    };
+    reader.readAsDataURL(file);
+}
+
+// Remove Photo
+function removePhoto() {
+    uploadedPhoto = null;
+    const photoPreview = document.getElementById('photoPreview');
+    photoPreview.innerHTML = '<span class="photo-placeholder">📷</span>';
+    document.getElementById('photoInput').value = '';
+    document.getElementById('removePhotoBtn').style.display = 'none';
 }
 
 // Add Work Experience Entry
@@ -140,6 +181,9 @@ function clearForm() {
             field.value = '';
         });
         
+        // Clear photo
+        removePhoto();
+        
         // Reset dynamic sections
         document.getElementById('experienceContainer').innerHTML = '';
         document.getElementById('educationContainer').innerHTML = '';
@@ -175,9 +219,10 @@ function generatePreview() {
     let cvHTML = '';
     
     // Only show header if at least name is provided
-    if (fullName || email || phone || location || linkedin || portfolio) {
+    if (fullName || email || phone || location || linkedin || portfolio || uploadedPhoto) {
         cvHTML += `
         <div class="cv-header">
+            ${uploadedPhoto ? `<div class="cv-photo"><img src="${uploadedPhoto}" alt="Profile Photo"></div>` : ''}
             ${fullName ? `<div class="cv-name">${escapeHtml(fullName)}</div>` : ''}
             <div class="cv-contact">
                 ${email ? `<span>${escapeHtml(email)}</span>` : ''}

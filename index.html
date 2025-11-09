@@ -29,6 +29,16 @@
                 <!-- Personal Information -->
                 <section class="form-group">
                     <h3>Personal Information</h3>
+                    <div class="photo-upload-section">
+                        <div class="photo-preview" id="photoPreview">
+                            <span class="photo-placeholder">📷</span>
+                        </div>
+                        <div class="photo-controls">
+                            <input type="file" id="photoInput" accept="image/*" style="display: none;" onchange="handlePhotoUpload(event)">
+                            <button type="button" class="add-btn photo-btn" onclick="document.getElementById('photoInput').click()">Upload Photo</button>
+                            <button type="button" class="remove-photo-btn" id="removePhotoBtn" onclick="removePhoto()" style="display: none;">Remove Photo</button>
+                        </div>
+                    </div>
                     <input type="text" id="fullName" placeholder="Full Name">
                     <input type="email" id="email" placeholder="Email">
                     <input type="tel" id="phone" placeholder="Phone Number">
