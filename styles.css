@@ -9,9 +9,10 @@
     --text-tertiary: #808080;
     --border-color: #2a2a2a;
     --border-accent: #ffffff;
-    --button-bg: #ffffff;
-    --button-text: #000000;
-    --button-hover-bg: #e0e0e0;
+    --button-bg: #000000;
+    --button-text: #ffffff;
+    --button-border: #ffffff;
+    --button-hover-bg: #1a1a1a;
     --input-bg: #0f0f0f;
     --input-border: #2a2a2a;
     --input-focus: #ffffff;
@@ -28,6 +29,7 @@
     --border-accent: #000000;
     --button-bg: #000000;
     --button-text: #ffffff;
+    --button-border: #000000;
     --button-hover-bg: #333333;
     --input-bg: #fafafa;
     --input-border: #d0d0d0;
@@ -47,6 +49,41 @@ body {
     padding: 40px 20px;
     color: var(--text-primary);
     transition: background-color 0.3s ease, color 0.3s ease;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Theme Transition Bloom Effect */
+body::before {
+    content: '';
+    position: fixed;
+    top: var(--bloom-y, 50%);
+    left: var(--bloom-x, 100%);
+    width: 0;
+    height: 0;
+    background: var(--bg-primary);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 9999;
+    transition: none;
+}
+
+body.theme-transitioning::before {
+    animation: bloomTransition 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes bloomTransition {
+    0% {
+        width: 0;
+        height: 0;
+        opacity: 1;
+    }
+    100% {
+        width: 300vmax;
+        height: 300vmax;
+        opacity: 1;
+    }
 }
 
 .container {
@@ -206,7 +243,7 @@ small {
     right: 15px;
     background: var(--button-bg);
     color: var(--button-text);
-    border: none;
+    border: 2px solid var(--button-border);
     border-radius: 0;
     width: 28px;
     height: 28px;
@@ -224,7 +261,7 @@ small {
 .add-btn {
     background: var(--button-bg);
     color: var(--button-text);
-    border: none;
+    border: 2px solid var(--button-border);
     padding: 12px 24px;
     border-radius: 0;
     cursor: pointer;
@@ -250,7 +287,6 @@ small {
 .btn-secondary {
     flex: 1;
     padding: 16px;
-    border: none;
     border-radius: 0;
     font-size: 1rem;
     font-weight: 500;
@@ -263,6 +299,7 @@ small {
 .btn-primary {
     background: var(--button-bg);
     color: var(--button-text);
+    border: 2px solid var(--button-border);
 }
 
 .btn-primary:hover {
@@ -272,14 +309,14 @@ small {
 }
 
 .btn-secondary {
-    background: transparent;
-    color: var(--text-primary);
-    border: 1px solid var(--border-accent);
+    background: var(--button-bg);
+    color: var(--button-text);
+    border: 2px solid var(--button-border);
 }
 
 .btn-secondary:hover {
-    background: var(--button-bg);
-    color: var(--button-text);
+    background: var(--button-hover-bg);
+    transform: translateY(-2px);
 }
 
 .preview-header {
@@ -292,7 +329,7 @@ small {
 .btn-download {
     background: var(--button-bg);
     color: var(--button-text);
-    border: none;
+    border: 2px solid var(--button-border);
     padding: 12px 28px;
     border-radius: 0;
     cursor: pointer;

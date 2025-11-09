@@ -18,16 +18,37 @@ function toggleTheme() {
     const currentTheme = document.documentElement.getAttribute('data-theme');
     const newTheme = currentTheme === 'light' ? null : 'light';
     
-    if (newTheme === 'light') {
-        document.documentElement.setAttribute('data-theme', 'light');
-    } else {
-        document.documentElement.removeAttribute('data-theme');
-    }
+    // Get the position of the theme toggle button
+    const toggleButton = document.querySelector('.theme-toggle');
+    const rect = toggleButton.getBoundingClientRect();
+    const x = rect.left + rect.width / 2;
+    const y = rect.top + rect.height / 2;
     
-    updateThemeIcon();
+    // Set CSS custom properties for bloom position
+    document.documentElement.style.setProperty('--bloom-x', `${x}px`);
+    document.documentElement.style.setProperty('--bloom-y', `${y}px`);
     
-    // Save preference
-    localStorage.setItem('theme', newTheme || 'dark');
+    // Add transitioning class to trigger bloom animation
+    document.body.classList.add('theme-transitioning');
+    
+    // Change theme after a slight delay for the animation
+    setTimeout(() => {
+        if (newTheme === 'light') {
+            document.documentElement.setAttribute('data-theme', 'light');
+        } else {
+            document.documentElement.removeAttribute('data-theme');
+        }
+        
+        updateThemeIcon();
+        
+        // Save preference
+        localStorage.setItem('theme', newTheme || 'dark');
+    }, 50);
+    
+    // Remove transitioning class after animation completes
+    setTimeout(() => {
+        document.body.classList.remove('theme-transitioning');
+    }, 800);
 }
 
 // Update Theme Icon
