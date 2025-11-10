@@ -647,32 +647,34 @@ function downloadPDF() {
     const fullName = document.getElementById('fullName').value.trim() || 'CV';
     const filename = `${fullName.replace(/\s+/g, '_')}_CV.pdf`;
     
-    // Store original styles
-    const originalStyles = {
-        aspectRatio: cvPage1.style.aspectRatio,
-        overflow: cvPage1.style.overflow,
-        minHeight: cvPage1.style.minHeight,
-        maxHeight: cvPage1.style.maxHeight,
-        height: cvPage1.style.height
-    };
+    // Create a clean container for PDF that mimics the preview exactly
+    const pdfContainer = document.createElement('div');
+    pdfContainer.style.cssText = `
+        width: 210mm;
+        padding: 15mm;
+        background: #ffffff;
+        color: #000000;
+        font-family: 'Inter', sans-serif;
+        box-sizing: border-box;
+        margin: 0;
+    `;
     
-    // Temporarily remove constraints for PDF rendering
-    cvPage1.style.aspectRatio = 'unset';
-    cvPage1.style.overflow = 'visible';
-    cvPage1.style.minHeight = 'auto';
-    cvPage1.style.maxHeight = 'none';
-    cvPage1.style.height = 'auto';
+    // Clone the content
+    pdfContainer.innerHTML = cvPage1.innerHTML;
     
-    // PDF options - simple and direct
+    // Temporarily add to body for rendering
+    document.body.appendChild(pdfContainer);
+    
+    // PDF options
     const opt = {
-        margin: 10,
+        margin: 0,
         filename: filename,
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { 
             scale: 2,
             useCORS: true,
             backgroundColor: '#ffffff',
-            windowHeight: cvPage1.scrollHeight + 100
+            logging: false
         },
         jsPDF: { 
             unit: 'mm', 
@@ -682,21 +684,13 @@ function downloadPDF() {
         pagebreak: { mode: 'css' }
     };
     
-    // Generate PDF and restore original styles
-    html2pdf().set(opt).from(cvPage1).save().then(() => {
-        // Restore original styles
-        cvPage1.style.aspectRatio = originalStyles.aspectRatio;
-        cvPage1.style.overflow = originalStyles.overflow;
-        cvPage1.style.minHeight = originalStyles.minHeight;
-        cvPage1.style.maxHeight = originalStyles.maxHeight;
-        cvPage1.style.height = originalStyles.height;
+    // Generate PDF and cleanup
+    html2pdf().set(opt).from(pdfContainer).save().then(() => {
+        document.body.removeChild(pdfContainer);
     }).catch((error) => {
         console.error('PDF generation error:', error);
-        // Restore original styles even on error
-        cvPage1.style.aspectRatio = originalStyles.aspectRatio;
-        cvPage1.style.overflow = originalStyles.overflow;
-        cvPage1.style.minHeight = originalStyles.minHeight;
-        cvPage1.style.maxHeight = originalStyles.maxHeight;
-        cvPage1.style.height = originalStyles.height;
+        if (document.body.contains(pdfContainer)) {
+            document.body.removeChild(pdfContainer);
+        }
     });
 }
