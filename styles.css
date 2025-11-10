@@ -891,7 +891,7 @@ small {
         aspect-ratio: unset !important;
         border: none !important;
         box-shadow: none !important;
-        padding: 15mm !important;
+        padding: 10mm !important;
         margin: 0 !important;
         background: white !important;
         overflow: visible !important;
@@ -903,6 +903,96 @@ small {
         display: block !important;
         background: white !important;
         color: black !important;
+    }
+    
+    /* Optimize spacing for print */
+    .cv-header {
+        margin-bottom: 3mm !important;
+    }
+    
+    .cv-section {
+        margin-bottom: 2mm !important;
+    }
+    
+    .cv-section-title {
+        margin-bottom: 1mm !important;
+        font-size: 0.7rem !important;
+    }
+    
+    .cv-experience-item,
+    .cv-education-item,
+    .cv-certification-item {
+        margin-bottom: 2.5mm !important;
+    }
+    
+    .cv-job-title,
+    .cv-degree {
+        font-size: 0.72rem !important;
+        margin-bottom: 0 !important;
+    }
+    
+    .cv-company,
+    .cv-school {
+        font-size: 0.68rem !important;
+    }
+    
+    .cv-date {
+        font-size: 0.63rem !important;
+        margin-bottom: 0.5mm !important;
+    }
+    
+    .cv-description {
+        font-size: 0.68rem !important;
+        line-height: 1.25 !important;
+        margin-top: 0.5mm !important;
+    }
+    
+    .cv-description ul {
+        margin: 0 !important;
+        padding-left: 10px !important;
+    }
+    
+    .cv-description li {
+        margin-bottom: 0 !important;
+        line-height: 1.25 !important;
+    }
+    
+    .cv-summary {
+        font-size: 0.68rem !important;
+        line-height: 1.3 !important;
+        margin-bottom: 2mm !important;
+    }
+    
+    .cv-skills {
+        font-size: 0.68rem !important;
+        line-height: 1.3 !important;
+    }
+    
+    .cv-name {
+        font-size: 1.3rem !important;
+        margin: 0 !important;
+        line-height: 1.1 !important;
+    }
+    
+    .cv-title-line {
+        font-size: 0.7rem !important;
+        margin: 0 !important;
+        line-height: 1.1 !important;
+    }
+    
+    .cv-contact {
+        font-size: 0.6rem !important;
+        margin-top: 1mm !important;
+        line-height: 1.2 !important;
+    }
+    
+    .cv-photo-display {
+        margin-bottom: 2mm !important;
+    }
+    
+    .cv-photo-display img {
+        width: 70px !important;
+        height: 70px !important;
     }
     
     /* Ensure proper page breaks */
@@ -918,6 +1008,6 @@ small {
     
     @page {
         size: A4;
-        margin: 15mm;
+        margin: 10mm;
     }
 }
