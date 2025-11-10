@@ -264,8 +264,8 @@ header h1 {
 }
 
 .photo-preview {
-    width: 120px;
-    height: 120px;
+    width: 105px;
+    height: 135px;
     border: 2px solid var(--border-accent);
     display: flex;
     align-items: center;
@@ -283,6 +283,13 @@ header h1 {
 .photo-placeholder {
     font-size: 3rem;
     opacity: 0.3;
+}
+
+.photo-hint {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-top: 8px;
+    font-style: italic;
 }
 
 .photo-controls {
@@ -524,15 +531,16 @@ small {
     border: 2px solid var(--border-accent);
     border-radius: 0;
     width: 100%;
-    max-width: 100%;
+    max-width: 794px;
     aspect-ratio: 8.5 / 11;
-    overflow: hidden;
+    overflow: auto;
     font-family: 'Inter', sans-serif;
     line-height: 1.4;
     color: #000;
     word-wrap: break-word;
     overflow-wrap: break-word;
     white-space: normal;
+    box-sizing: border-box;
 }
 
 .cv-pages-container {
@@ -991,8 +999,8 @@ small {
     }
     
     .cv-photo-display img {
-        width: 70px !important;
-        height: 70px !important;
+        width: 60px !important;
+        height: 77px !important;
     }
     
     /* Ensure proper page breaks */

@@ -469,7 +469,7 @@ function generatePreview() {
     
     // Add photo if uploaded
     if (uploadedPhoto) {
-        cvHTML += `<div class="cv-photo-display"><img src="${uploadedPhoto}" alt="Profile Photo" style="width: 80px; height: 80px; border-radius: 3px; margin-bottom: 8px; object-fit: cover;"></div>`;
+        cvHTML += `<div class="cv-photo-display"><img src="${uploadedPhoto}" alt="Profile Photo" style="width: 70px; height: 90px; border-radius: 3px; margin-bottom: 8px; object-fit: cover;"></div>`;
     }
     
     cvHTML += `
