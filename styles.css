@@ -855,3 +855,69 @@ small {
 .cv-header {
     page-break-after: avoid;
 }
+
+/* Print styles for PDF generation */
+@media print {
+    body {
+        margin: 0;
+        padding: 0;
+        background: white;
+    }
+    
+    /* Hide everything except CV content */
+    .container > header,
+    .form-section,
+    .preview-section > h2,
+    .button-group,
+    #paginationControls,
+    .tips-section,
+    .theme-toggle,
+    .developer-link {
+        display: none !important;
+    }
+    
+    .container {
+        max-width: 100%;
+        background: white;
+    }
+    
+    .preview-section {
+        margin: 0;
+        padding: 0;
+        background: white;
+    }
+    
+    .cv-preview {
+        aspect-ratio: unset !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 15mm !important;
+        margin: 0 !important;
+        background: white !important;
+        overflow: visible !important;
+        max-height: none !important;
+        height: auto !important;
+    }
+    
+    #cvPage1 {
+        display: block !important;
+        background: white !important;
+        color: black !important;
+    }
+    
+    /* Ensure proper page breaks */
+    .cv-section {
+        page-break-inside: auto;
+    }
+    
+    .cv-experience-item,
+    .cv-education-item,
+    .cv-certification-item {
+        page-break-inside: avoid;
+    }
+    
+    @page {
+        size: A4;
+        margin: 15mm;
+    }
+}
