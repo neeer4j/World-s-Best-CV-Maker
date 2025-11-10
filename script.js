@@ -578,11 +578,54 @@ function generatePreview() {
     document.getElementById('cvPage2').innerHTML = '';
     document.getElementById('paginationControls').style.display = 'none';
     
+    // Apply dynamic font sizing based on content
+    applyDynamicFontSize();
+    
     // Scroll to preview section smoothly
     setTimeout(() => {
         const previewSection = document.querySelector('.preview-section');
         previewSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 100);
+}
+
+// Dynamic font sizing based on content length
+function applyDynamicFontSize() {
+    const cvPage1 = document.getElementById('cvPage1');
+    
+    // Calculate content metrics
+    const experienceItems = document.querySelectorAll('.experience-item').length;
+    const educationItems = document.querySelectorAll('.education-item').length;
+    const certificationItems = document.querySelectorAll('.certification-item').length;
+    const summaryLength = document.getElementById('summary').value.trim().length;
+    const skillsLength = document.getElementById('skills').value.trim().length;
+    
+    // Calculate total bullet points in descriptions
+    let totalBulletPoints = 0;
+    document.querySelectorAll('.job-description').forEach(desc => {
+        const lines = desc.value.trim().split('\n').filter(line => line.trim() !== '');
+        totalBulletPoints += lines.length;
+    });
+    
+    // Content score calculation (higher = more content)
+    const contentScore = 
+        (experienceItems * 100) + 
+        (educationItems * 50) + 
+        (certificationItems * 30) + 
+        (summaryLength / 5) + 
+        (skillsLength / 5) +
+        (totalBulletPoints * 40);
+    
+    // Remove existing size classes
+    cvPage1.classList.remove('cv-compact', 'cv-normal', 'cv-dense');
+    
+    // Apply appropriate class based on content score
+    if (contentScore < 800) {
+        cvPage1.classList.add('cv-compact'); // Large fonts for sparse content
+    } else if (contentScore < 1500) {
+        cvPage1.classList.add('cv-normal'); // Normal fonts
+    } else {
+        cvPage1.classList.add('cv-dense'); // Smaller fonts for dense content
+    }
 }
 
 // Show specific CV page

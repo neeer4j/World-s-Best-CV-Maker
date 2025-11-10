@@ -765,6 +765,125 @@ small {
     overflow-wrap: break-word;
 }
 
+/* Dynamic font sizing based on content density */
+/* Compact: Large fonts for sparse content */
+.cv-compact .cv-name {
+    font-size: 1.5rem;
+}
+
+.cv-compact .cv-title-line {
+    font-size: 0.8rem;
+}
+
+.cv-compact .cv-contact {
+    font-size: 0.68rem;
+}
+
+.cv-compact .cv-section-title {
+    font-size: 0.75rem;
+    margin-bottom: 2mm;
+}
+
+.cv-compact .cv-summary {
+    font-size: 0.75rem;
+    line-height: 1.4;
+    margin-bottom: 3mm;
+}
+
+.cv-compact .cv-job-title,
+.cv-compact .cv-degree {
+    font-size: 0.8rem;
+}
+
+.cv-compact .cv-company,
+.cv-compact .cv-school {
+    font-size: 0.75rem;
+}
+
+.cv-compact .cv-date {
+    font-size: 0.7rem;
+}
+
+.cv-compact .cv-description {
+    font-size: 0.75rem;
+    line-height: 1.35;
+}
+
+.cv-compact .cv-skills {
+    font-size: 0.75rem;
+    line-height: 1.4;
+}
+
+.cv-compact .cv-section {
+    margin-bottom: 4mm;
+}
+
+.cv-compact .cv-experience-item,
+.cv-compact .cv-education-item,
+.cv-compact .cv-certification-item {
+    margin-bottom: 4mm;
+}
+
+/* Normal: Default sizes (already defined above) */
+
+/* Dense: Smaller fonts for content-heavy CVs */
+.cv-dense .cv-name {
+    font-size: 1.2rem;
+}
+
+.cv-dense .cv-title-line {
+    font-size: 0.65rem;
+}
+
+.cv-dense .cv-contact {
+    font-size: 0.58rem;
+}
+
+.cv-dense .cv-section-title {
+    font-size: 0.65rem;
+    margin-bottom: 1mm;
+}
+
+.cv-dense .cv-summary {
+    font-size: 0.65rem;
+    line-height: 1.25;
+    margin-bottom: 1.5mm;
+}
+
+.cv-dense .cv-job-title,
+.cv-dense .cv-degree {
+    font-size: 0.68rem;
+}
+
+.cv-dense .cv-company,
+.cv-dense .cv-school {
+    font-size: 0.63rem;
+}
+
+.cv-dense .cv-date {
+    font-size: 0.6rem;
+}
+
+.cv-dense .cv-description {
+    font-size: 0.65rem;
+    line-height: 1.2;
+}
+
+.cv-dense .cv-skills {
+    font-size: 0.65rem;
+    line-height: 1.25;
+}
+
+.cv-dense .cv-section {
+    margin-bottom: 1.5mm;
+}
+
+.cv-dense .cv-experience-item,
+.cv-dense .cv-education-item,
+.cv-dense .cv-certification-item {
+    margin-bottom: 2mm;
+}
+
 .tips-section {
     background: var(--bg-secondary);
     border-radius: 0;
