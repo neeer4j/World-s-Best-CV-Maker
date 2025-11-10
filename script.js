@@ -651,21 +651,25 @@ function downloadPDF() {
     const pdfContainer = document.createElement('div');
     pdfContainer.style.cssText = `
         width: 210mm;
+        min-height: auto;
         padding: 15mm;
         background: #ffffff;
         color: #000000;
         font-family: 'Inter', sans-serif;
         box-sizing: border-box;
         margin: 0;
+        position: absolute;
+        left: -9999px;
+        top: 0;
     `;
     
     // Clone the content
     pdfContainer.innerHTML = cvPage1.innerHTML;
     
-    // Temporarily add to body for rendering
+    // Add to body for rendering
     document.body.appendChild(pdfContainer);
     
-    // PDF options
+    // PDF options with proper page break handling
     const opt = {
         margin: 0,
         filename: filename,
@@ -674,18 +678,24 @@ function downloadPDF() {
             scale: 2,
             useCORS: true,
             backgroundColor: '#ffffff',
-            logging: false
+            logging: false,
+            windowWidth: 794
         },
         jsPDF: { 
             unit: 'mm', 
             format: 'a4', 
             orientation: 'portrait'
         },
-        pagebreak: { mode: 'css' }
+        pagebreak: { 
+            mode: ['css', 'legacy'],
+            avoid: ['.cv-experience-item', '.cv-education-item', '.cv-certification-item']
+        }
     };
     
     // Generate PDF and cleanup
-    html2pdf().set(opt).from(pdfContainer).save().then(() => {
+    html2pdf().set(opt).from(pdfContainer).toPdf().get('pdf').then(function(pdf) {
+        const totalPages = pdf.internal.getNumberOfPages();
+        pdf.save();
         document.body.removeChild(pdfContainer);
     }).catch((error) => {
         console.error('PDF generation error:', error);
