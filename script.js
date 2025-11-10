@@ -3,6 +3,7 @@ let experienceCount = 0;
 let educationCount = 0;
 let certificationCount = 0;
 let uploadedPhoto = null;
+let fontSizeMultiplier = 1.0; // Default font size multiplier (100%)
 
 // Initialize the form with one experience and education entry
 document.addEventListener('DOMContentLoaded', () => {
@@ -626,6 +627,30 @@ function applyDynamicFontSize() {
     } else {
         cvPage1.classList.add('cv-dense'); // Smaller fonts for dense content
     }
+    
+    // Apply manual font size multiplier
+    applyFontSizeMultiplier();
+}
+
+// Handle manual font size adjustment
+function handleFontSizeChange(value) {
+    fontSizeMultiplier = value / 100;
+    document.getElementById('fontSizeValue').textContent = value;
+    
+    // Reapply font size multiplier if preview exists
+    const cvPage1 = document.getElementById('cvPage1');
+    if (cvPage1 && cvPage1.innerHTML.trim() !== '') {
+        applyFontSizeMultiplier();
+    }
+}
+
+// Apply font size multiplier to the CV preview
+function applyFontSizeMultiplier() {
+    const cvPage1 = document.getElementById('cvPage1');
+    if (!cvPage1) return;
+    
+    // Apply the multiplier using CSS custom property
+    cvPage1.style.setProperty('--font-size-multiplier', fontSizeMultiplier);
 }
 
 // Show specific CV page

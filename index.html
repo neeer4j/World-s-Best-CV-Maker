@@ -120,6 +120,20 @@
                     <button type="button" class="btn-secondary" onclick="loadSampleCV()">Load Sample CV</button>
                     <button type="button" class="btn-secondary" onclick="clearForm()">Clear Form</button>
                 </div>
+
+                <!-- Font Size Control -->
+                <div class="font-size-control">
+                    <label for="fontSizeSlider">
+                        <span class="control-label">Font Size:</span>
+                        <span id="fontSizeValue">100</span>%
+                    </label>
+                    <input type="range" id="fontSizeSlider" min="80" max="120" value="100" step="5" oninput="handleFontSizeChange(this.value)">
+                    <div class="slider-markers">
+                        <span>80%</span>
+                        <span>100%</span>
+                        <span>120%</span>
+                    </div>
+                </div>
             </div>
 
             <!-- Preview Section -->

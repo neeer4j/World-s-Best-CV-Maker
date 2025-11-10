@@ -463,6 +463,82 @@ small {
     margin-top: 30px;
 }
 
+/* Font Size Control */
+.font-size-control {
+    margin-top: 25px;
+    padding: 20px;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+}
+
+.font-size-control label {
+    display: block;
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.font-size-control .control-label {
+    margin-right: 8px;
+}
+
+.font-size-control #fontSizeValue {
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+#fontSizeSlider {
+    width: 100%;
+    height: 6px;
+    background: var(--border-color);
+    outline: none;
+    border-radius: 3px;
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+}
+
+#fontSizeSlider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    background: var(--primary-color);
+    cursor: pointer;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+
+#fontSizeSlider::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+    background: var(--primary-dark);
+}
+
+#fontSizeSlider::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    background: var(--primary-color);
+    cursor: pointer;
+    border-radius: 50%;
+    border: none;
+    transition: all 0.2s ease;
+}
+
+#fontSizeSlider::-moz-range-thumb:hover {
+    transform: scale(1.2);
+    background: var(--primary-dark);
+}
+
+.slider-markers {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
 .btn-primary,
 .btn-secondary {
     flex: 1;
@@ -769,52 +845,52 @@ small {
 /* Dynamic font sizing based on content density */
 /* Compact: Large fonts for sparse content */
 .cv-compact .cv-name {
-    font-size: 1.6rem;
+    font-size: calc(1.8rem * var(--font-size-multiplier, 1));
 }
 
 .cv-compact .cv-title-line {
-    font-size: 0.85rem;
+    font-size: calc(0.87rem * var(--font-size-multiplier, 1));
 }
 
 .cv-compact .cv-contact {
-    font-size: 0.72rem;
+    font-size: calc(0.74rem * var(--font-size-multiplier, 1));
     margin-top: 2mm;
 }
 
 .cv-compact .cv-section-title {
-    font-size: 0.8rem;
+    font-size: calc(0.82rem * var(--font-size-multiplier, 1));
     margin-bottom: 3mm;
     padding-bottom: 1.5mm;
 }
 
 .cv-compact .cv-summary {
-    font-size: 0.8rem;
+    font-size: calc(0.82rem * var(--font-size-multiplier, 1));
     line-height: 1.5;
     margin-bottom: 5mm;
 }
 
 .cv-compact .cv-job-title,
 .cv-compact .cv-degree {
-    font-size: 0.85rem;
+    font-size: calc(0.87rem * var(--font-size-multiplier, 1));
 }
 
 .cv-compact .cv-company,
 .cv-compact .cv-school {
-    font-size: 0.78rem;
+    font-size: calc(0.8rem * var(--font-size-multiplier, 1));
 }
 
 .cv-compact .cv-date {
-    font-size: 0.72rem;
+    font-size: calc(0.74rem * var(--font-size-multiplier, 1));
     margin-bottom: 1.5mm;
 }
 
 .cv-compact .cv-description {
-    font-size: 0.78rem;
+    font-size: calc(0.8rem * var(--font-size-multiplier, 1));
     line-height: 1.4;
 }
 
 .cv-compact .cv-skills {
-    font-size: 0.78rem;
+    font-size: calc(0.8rem * var(--font-size-multiplier, 1));
     line-height: 1.5;
 }
 
@@ -833,52 +909,106 @@ small {
 }
 
 /* Normal: Default sizes (already defined above) */
+/* Apply multiplier to normal mode base sizes */
+.cv-normal .cv-name,
+.cv-preview:not(.cv-compact):not(.cv-dense) .cv-name {
+    font-size: calc(1.4rem * var(--font-size-multiplier, 1));
+}
+
+.cv-normal .cv-title-line,
+.cv-preview:not(.cv-compact):not(.cv-dense) .cv-title-line {
+    font-size: calc(0.75rem * var(--font-size-multiplier, 1));
+}
+
+.cv-normal .cv-contact,
+.cv-preview:not(.cv-compact):not(.cv-dense) .cv-contact {
+    font-size: calc(0.65rem * var(--font-size-multiplier, 1));
+}
+
+.cv-normal .cv-section-title,
+.cv-preview:not(.cv-compact):not(.cv-dense) .cv-section-title {
+    font-size: calc(0.75rem * var(--font-size-multiplier, 1));
+}
+
+.cv-normal .cv-summary,
+.cv-preview:not(.cv-compact):not(.cv-dense) .cv-summary {
+    font-size: calc(0.7rem * var(--font-size-multiplier, 1));
+}
+
+.cv-normal .cv-job-title,
+.cv-normal .cv-degree,
+.cv-preview:not(.cv-compact):not(.cv-dense) .cv-job-title,
+.cv-preview:not(.cv-compact):not(.cv-dense) .cv-degree {
+    font-size: calc(0.75rem * var(--font-size-multiplier, 1));
+}
+
+.cv-normal .cv-company,
+.cv-normal .cv-school,
+.cv-preview:not(.cv-compact):not(.cv-dense) .cv-company,
+.cv-preview:not(.cv-compact):not(.cv-dense) .cv-school {
+    font-size: calc(0.7rem * var(--font-size-multiplier, 1));
+}
+
+.cv-normal .cv-date,
+.cv-preview:not(.cv-compact):not(.cv-dense) .cv-date {
+    font-size: calc(0.65rem * var(--font-size-multiplier, 1));
+}
+
+.cv-normal .cv-description,
+.cv-preview:not(.cv-compact):not(.cv-dense) .cv-description {
+    font-size: calc(0.7rem * var(--font-size-multiplier, 1));
+}
+
+.cv-normal .cv-skills,
+.cv-preview:not(.cv-compact):not(.cv-dense) .cv-skills {
+    font-size: calc(0.7rem * var(--font-size-multiplier, 1));
+}
 
 /* Dense: Smaller fonts for content-heavy CVs */
 .cv-dense .cv-name {
-    font-size: 1.2rem;
+    font-size: calc(1.2rem * var(--font-size-multiplier, 1));
 }
 
 .cv-dense .cv-title-line {
-    font-size: 0.65rem;
+    font-size: calc(0.65rem * var(--font-size-multiplier, 1));
 }
 
 .cv-dense .cv-contact {
-    font-size: 0.58rem;
+    font-size: calc(0.58rem * var(--font-size-multiplier, 1));
 }
 
 .cv-dense .cv-section-title {
-    font-size: 0.65rem;
+    font-size: calc(0.65rem * var(--font-size-multiplier, 1));
     margin-bottom: 1mm;
 }
 
 .cv-dense .cv-summary {
-    font-size: 0.65rem;
+    font-size: calc(0.65rem * var(--font-size-multiplier, 1));
     line-height: 1.25;
     margin-bottom: 1.5mm;
 }
 
 .cv-dense .cv-job-title,
 .cv-dense .cv-degree {
-    font-size: 0.68rem;
+    font-size: calc(0.68rem * var(--font-size-multiplier, 1));
 }
 
 .cv-dense .cv-company,
 .cv-dense .cv-school {
-    font-size: 0.63rem;
+    font-size: calc(0.63rem * var(--font-size-multiplier, 1));
 }
 
 .cv-dense .cv-date {
-    font-size: 0.6rem;
+    font-size: calc(0.6rem * var(--font-size-multiplier, 1));
 }
 
 .cv-dense .cv-description {
-    font-size: 0.65rem;
+    font-size: calc(0.65rem * var(--font-size-multiplier, 1));
     line-height: 1.2;
 }
 
 .cv-dense .cv-skills {
-    font-size: 0.65rem;
+    font-size: calc(0.65rem * var(--font-size-multiplier, 1));
     line-height: 1.25;
 }
 
