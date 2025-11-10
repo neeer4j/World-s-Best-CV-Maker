@@ -34,6 +34,33 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
+// Mobile detection and optimization
+function isMobileDevice() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) 
+           || window.innerWidth <= 768;
+}
+
+// Optimize for mobile on load
+if (isMobileDevice()) {
+    document.body.classList.add('mobile-device');
+    
+    // Add helpful mobile tip
+    const addMobileTip = () => {
+        const tipsSection = document.querySelector('.tips-section ul');
+        if (tipsSection && !document.querySelector('.mobile-tip')) {
+            const mobileTip = document.createElement('li');
+            mobileTip.className = 'mobile-tip';
+            mobileTip.innerHTML = '📱 <strong>Mobile Tip:</strong> For best experience, use landscape mode when editing your CV';
+            mobileTip.style.color = 'var(--primary-color)';
+            mobileTip.style.fontWeight = '500';
+            tipsSection.insertBefore(mobileTip, tipsSection.firstChild);
+        }
+    };
+    
+    // Add tip after app loads
+    setTimeout(addMobileTip, 1000);
+}
+
 // Initialize the form with one experience and education entry
 document.addEventListener('DOMContentLoaded', () => {
     addExperience();

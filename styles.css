@@ -1238,21 +1238,294 @@ small {
     }
 }
 
+/* Mobile Responsive Styles */
 @media (max-width: 768px) {
-    header h1 {
-        font-size: 2rem;
+    body {
+        padding: 10px;
     }
 
-    .form-section, .preview-section {
-        padding: 20px;
+    .container {
+        padding: 0;
+    }
+
+    header {
+        padding: 20px 15px;
+    }
+
+    header h1 {
+        font-size: 1.8rem;
+    }
+
+    .subtitle {
+        font-size: 0.9rem;
+    }
+
+    .header-top {
+        gap: 10px;
+    }
+
+    .main-content {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .form-section, 
+    .preview-section {
+        width: 100%;
+        padding: 15px;
+    }
+
+    .form-section h2,
+    .preview-section h2 {
+        font-size: 1.5rem;
+    }
+
+    /* Form fields mobile optimization */
+    .form-row {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .form-group {
+        padding: 15px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="url"],
+    textarea {
+        font-size: 16px; /* Prevents zoom on iOS */
+        padding: 12px;
+    }
+
+    .collapsible-header h3 {
+        font-size: 1.1rem;
+    }
+
+    /* Action buttons mobile optimization */
+    .action-buttons {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+        width: 100%;
+        padding: 14px;
+        font-size: 0.9rem;
+    }
+
+    /* Font size control mobile */
+    .font-size-control {
+        padding: 15px;
+        margin-top: 15px;
+    }
+
+    /* Preview section mobile */
+    .preview-header {
+        flex-direction: column;
+        gap: 15px;
+        align-items: stretch;
+    }
+
+    .btn-download {
+        width: 100%;
+        padding: 14px;
     }
 
     .cv-preview {
-        padding: 20px;
+        width: 100%;
+        height: auto;
+        aspect-ratio: 210 / 297; /* A4 ratio */
+        padding: 15px !important;
+        transform: scale(1);
+        transform-origin: top center;
+        overflow-y: auto;
     }
 
-    .action-buttons {
+    /* Pagination mobile */
+    #paginationControls {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    #paginationControls button {
+        padding: 8px 12px;
+        font-size: 0.85rem;
+    }
+
+    /* Tips section mobile */
+    .tips-section {
+        padding: 20px 15px;
+    }
+
+    .tips-section h3 {
+        font-size: 1.2rem;
+    }
+
+    .tips-section ul li {
+        font-size: 0.9rem;
+    }
+
+    /* Photo preview mobile */
+    .photo-preview {
+        width: 90px;
+        height: 115px;
+    }
+
+    /* Remove button adjustments */
+    .remove-btn {
+        padding: 6px 10px;
+        font-size: 0.85rem;
+    }
+
+    /* Theme toggle mobile */
+    .theme-toggle {
+        width: 40px;
+        height: 40px;
+    }
+
+    /* Developer link mobile */
+    .developer-link {
+        font-size: 1.2rem;
+    }
+}
+
+/* Extra small mobile devices */
+@media (max-width: 480px) {
+    header h1 {
+        font-size: 1.5rem;
+    }
+
+    .subtitle {
+        font-size: 0.85rem;
+    }
+
+    .form-section,
+    .preview-section {
+        padding: 10px;
+    }
+
+    .form-group {
+        padding: 12px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="url"],
+    textarea {
+        font-size: 16px;
+        padding: 10px;
+    }
+
+    .btn-primary,
+    .btn-secondary,
+    .btn-download {
+        padding: 12px;
+        font-size: 0.85rem;
+    }
+
+    .cv-preview {
+        padding: 10px !important;
+    }
+
+    .photo-preview {
+        width: 80px;
+        height: 103px;
+    }
+
+    /* Welcome banner mobile extra small */
+    .welcome-title {
+        font-size: 2rem !important;
+    }
+
+    .welcome-subtitle {
+        font-size: 0.9rem !important;
+    }
+
+    .btn-get-started {
+        padding: 12px 30px !important;
+        font-size: 0.9rem !important;
+    }
+
+    .welcome-icon {
+        font-size: 50px !important;
+    }
+
+    .feature-item {
+        font-size: 0.85rem;
+        padding: 12px;
+    }
+
+    .welcome-content {
+        padding: 20px;
+    }
+}
+
+/* Tablet specific optimizations */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .container {
+        max-width: 95%;
+    }
+
+    .main-content {
+        gap: 20px;
+    }
+
+    .form-section {
+        width: 45%;
+    }
+
+    .preview-section {
+        width: 55%;
+    }
+
+    .cv-preview {
+        transform: scale(0.95);
+        transform-origin: top center;
+    }
+}
+
+/* Landscape mobile optimization */
+@media (max-width: 768px) and (orientation: landscape) {
+    .welcome-banner {
+        overflow-y: auto;
+    }
+
+    .welcome-content {
+        padding: 20px;
+        margin: 20px 0;
+    }
+
+    .welcome-features {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        margin-bottom: 30px;
+    }
+
+    .feature-item {
         flex-direction: column;
+        text-align: center;
+        padding: 10px;
+        font-size: 0.8rem;
+    }
+
+    .welcome-title {
+        font-size: 2rem;
+        margin-bottom: 10px;
+    }
+
+    .welcome-subtitle {
+        font-size: 0.9rem;
+        margin-bottom: 20px;
+    }
+
+    .btn-get-started {
+        padding: 12px 30px;
+        font-size: 1rem;
+        margin-bottom: 15px;
     }
 }
 
@@ -1478,3 +1751,112 @@ small {
         margin: 8mm;
     }
 }
+
+/* Touch-friendly improvements for mobile devices */
+@media (hover: none) and (pointer: coarse) {
+    /* Larger touch targets */
+    button,
+    .btn-primary,
+    .btn-secondary,
+    .btn-download,
+    .btn-get-started,
+    .remove-btn,
+    .add-btn,
+    .theme-toggle {
+        min-height: 44px; /* Apple's recommended minimum touch target */
+        min-width: 44px;
+        padding: 12px 20px;
+    }
+
+    /* Better button spacing for fat fingers */
+    .action-buttons {
+        gap: 15px;
+    }
+
+    /* Larger collapsible headers for easier tapping */
+    .collapsible-header {
+        padding: 18px;
+        min-height: 56px;
+    }
+
+    /* Remove hover effects on touch devices */
+    .btn-primary:hover,
+    .btn-secondary:hover,
+    .btn-download:hover,
+    .feature-item:hover {
+        transform: none;
+    }
+
+    /* Better touch feedback with active states */
+    button:active,
+    .btn-primary:active,
+    .btn-secondary:active {
+        transform: scale(0.98);
+        opacity: 0.9;
+    }
+
+    /* Prevent text selection during interactions */
+    button,
+    .collapsible-header {
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+        -webkit-touch-callout: none;
+    }
+
+    /* Larger slider thumb for easier dragging */
+    #fontSizeSlider::-webkit-slider-thumb {
+        width: 24px;
+        height: 24px;
+    }
+
+    #fontSizeSlider::-moz-range-thumb {
+        width: 24px;
+        height: 24px;
+    }
+
+    /* Better spacing for form inputs on touch */
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="url"],
+    textarea {
+        min-height: 44px;
+        padding: 12px 15px;
+    }
+
+    /* Prevent double-tap zoom */
+    * {
+        touch-action: manipulation;
+    }
+}
+
+/* Performance optimizations for mobile */
+@media (max-width: 768px) {
+    * {
+        /* Reduce animations on mobile for better performance */
+        animation-duration: 0.3s !important;
+    }
+
+    /* Enable hardware acceleration for smooth scrolling */
+    .cv-preview,
+    .form-section,
+    .preview-section {
+        -webkit-overflow-scrolling: touch;
+        will-change: transform;
+    }
+
+    /* Optimize font rendering on mobile */
+    body {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-rendering: optimizeLegibility;
+    }
+}
+
+/* PWA support - hide default browser UI on standalone mode */
+@media (display-mode: standalone) {
+    body {
+        padding-top: env(safe-area-inset-top);
+        padding-bottom: env(safe-area-inset-bottom);
+    }
+}
+
