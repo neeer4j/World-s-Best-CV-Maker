@@ -776,6 +776,15 @@ small {
     overflow-wrap: break-word;
 }
 
+/* Flex container for title and date alignment */
+.cv-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 0;
+}
+
 .cv-job-title,
 .cv-degree {
     font-weight: 700;
@@ -786,6 +795,7 @@ small {
     line-height: 1.1;
     word-wrap: break-word;
     overflow-wrap: break-word;
+    flex: 1;
 }
 
 .cv-company,
@@ -805,10 +815,13 @@ small {
     color: #666;
     font-size: 0.63rem;
     margin-top: 0;
-    margin-bottom: 1px;
-    line-height: 1;
+    margin-bottom: 0;
+    line-height: 1.1;
     word-wrap: break-word;
     overflow-wrap: break-word;
+    flex-shrink: 0;
+    text-align: right;
+    white-space: nowrap;
 }
 
 .cv-description {
@@ -1187,6 +1200,20 @@ small {
     .cv-education-item,
     .cv-certification-item {
         margin-bottom: 2.5mm !important;
+    }
+    
+    /* Ensure flex layout works in print */
+    .cv-item-header {
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: baseline !important;
+        gap: 10px !important;
+    }
+    
+    .cv-date {
+        text-align: right !important;
+        flex-shrink: 0 !important;
+        white-space: nowrap !important;
     }
     
     .cv-description {

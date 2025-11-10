@@ -534,9 +534,11 @@ function generatePreview() {
                 section.items.forEach(exp => {
                     cvHTML += `
                         <div class="cv-experience-item">
-                            <div class="cv-job-title">${escapeHtml(exp.jobTitle)}</div>
+                            <div class="cv-item-header">
+                                <div class="cv-job-title">${escapeHtml(exp.jobTitle)}</div>
+                                <div class="cv-date">${escapeHtml(exp.startDate)} - ${escapeHtml(exp.endDate)}</div>
+                            </div>
                             <div class="cv-company">${escapeHtml(exp.company)}${exp.jobLocation ? ', ' + escapeHtml(exp.jobLocation) : ''}</div>
-                            <div class="cv-date">${escapeHtml(exp.startDate)} - ${escapeHtml(exp.endDate)}</div>
                             ${exp.description ? `<div class="cv-description">${formatBulletPoints(exp.description)}</div>` : ''}
                         </div>
                     `;
@@ -547,9 +549,11 @@ function generatePreview() {
                 section.items.forEach(edu => {
                     cvHTML += `
                         <div class="cv-education-item">
-                            <div class="cv-degree">${escapeHtml(edu.degree)}</div>
+                            <div class="cv-item-header">
+                                <div class="cv-degree">${escapeHtml(edu.degree)}</div>
+                                <div class="cv-date">${escapeHtml(edu.gradDate)}${edu.gpa ? ' | GPA: ' + escapeHtml(edu.gpa) : ''}</div>
+                            </div>
                             <div class="cv-school">${escapeHtml(edu.school)}${edu.eduLocation ? ', ' + escapeHtml(edu.eduLocation) : ''}</div>
-                            <div class="cv-date">${escapeHtml(edu.gradDate)}${edu.gpa ? ' | GPA: ' + escapeHtml(edu.gpa) : ''}</div>
                         </div>
                     `;
                 });
@@ -563,8 +567,11 @@ function generatePreview() {
                 section.items.forEach(cert => {
                     cvHTML += `
                         <div class="cv-certification-item">
-                            <div class="cv-job-title">${escapeHtml(cert.certName)}</div>
-                            <div class="cv-company">${escapeHtml(cert.certIssuer)}${cert.certDate ? ' | ' + escapeHtml(cert.certDate) : ''}</div>
+                            <div class="cv-item-header">
+                                <div class="cv-job-title">${escapeHtml(cert.certName)}</div>
+                                <div class="cv-date">${cert.certDate ? escapeHtml(cert.certDate) : ''}</div>
+                            </div>
+                            <div class="cv-company">${escapeHtml(cert.certIssuer)}</div>
                         </div>
                     `;
                 });
