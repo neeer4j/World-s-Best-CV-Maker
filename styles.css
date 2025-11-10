@@ -769,60 +769,67 @@ small {
 /* Dynamic font sizing based on content density */
 /* Compact: Large fonts for sparse content */
 .cv-compact .cv-name {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
 }
 
 .cv-compact .cv-title-line {
-    font-size: 0.8rem;
+    font-size: 0.85rem;
 }
 
 .cv-compact .cv-contact {
-    font-size: 0.68rem;
+    font-size: 0.72rem;
+    margin-top: 2mm;
 }
 
 .cv-compact .cv-section-title {
-    font-size: 0.75rem;
-    margin-bottom: 2mm;
+    font-size: 0.8rem;
+    margin-bottom: 3mm;
+    padding-bottom: 1.5mm;
 }
 
 .cv-compact .cv-summary {
-    font-size: 0.75rem;
-    line-height: 1.4;
-    margin-bottom: 3mm;
+    font-size: 0.8rem;
+    line-height: 1.5;
+    margin-bottom: 5mm;
 }
 
 .cv-compact .cv-job-title,
 .cv-compact .cv-degree {
-    font-size: 0.8rem;
+    font-size: 0.85rem;
 }
 
 .cv-compact .cv-company,
 .cv-compact .cv-school {
-    font-size: 0.75rem;
+    font-size: 0.78rem;
 }
 
 .cv-compact .cv-date {
-    font-size: 0.7rem;
+    font-size: 0.72rem;
+    margin-bottom: 1.5mm;
 }
 
 .cv-compact .cv-description {
-    font-size: 0.75rem;
-    line-height: 1.35;
-}
-
-.cv-compact .cv-skills {
-    font-size: 0.75rem;
+    font-size: 0.78rem;
     line-height: 1.4;
 }
 
+.cv-compact .cv-skills {
+    font-size: 0.78rem;
+    line-height: 1.5;
+}
+
 .cv-compact .cv-section {
-    margin-bottom: 4mm;
+    margin-bottom: 6mm;
+}
+
+.cv-compact .cv-header {
+    margin-bottom: 5mm;
 }
 
 .cv-compact .cv-experience-item,
 .cv-compact .cv-education-item,
 .cv-compact .cv-certification-item {
-    margin-bottom: 4mm;
+    margin-bottom: 5mm;
 }
 
 /* Normal: Default sizes (already defined above) */
@@ -1080,25 +1087,29 @@ small {
     
     /* Print-specific adjustments for compact mode */
     .cv-compact .cv-header {
-        margin-bottom: 4mm !important;
+        margin-bottom: 5mm !important;
     }
     
     .cv-compact .cv-section {
-        margin-bottom: 3mm !important;
+        margin-bottom: 6mm !important;
     }
     
     .cv-compact .cv-section-title {
-        margin-bottom: 2mm !important;
+        margin-bottom: 3mm !important;
     }
     
     .cv-compact .cv-experience-item,
     .cv-compact .cv-education-item,
     .cv-compact .cv-certification-item {
-        margin-bottom: 3.5mm !important;
+        margin-bottom: 5mm !important;
     }
     
     .cv-compact .cv-summary {
-        margin-bottom: 3mm !important;
+        margin-bottom: 5mm !important;
+    }
+    
+    .cv-compact .cv-date {
+        margin-bottom: 1.5mm !important;
     }
     
     /* Print-specific adjustments for dense mode */
