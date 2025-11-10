@@ -647,44 +647,52 @@ function downloadPDF() {
     const fullName = document.getElementById('fullName').value.trim() || 'CV';
     const filename = `${fullName.replace(/\s+/g, '_')}_CV.pdf`;
     
-    // Create a clean container for PDF
-    const pdfContainer = document.createElement('div');
-    pdfContainer.style.cssText = `
-        width: 210mm;
-        padding: 15mm;
-        background: #ffffff;
-        color: #000000;
-        font-family: 'Inter', sans-serif;
-        box-sizing: border-box;
-        margin: 0;
-    `;
+    // Create a wrapper with proper styling
+    const wrapper = document.createElement('div');
+    wrapper.innerHTML = cvPage1.innerHTML;
     
-    // Clone the content
-    pdfContainer.innerHTML = cvPage1.innerHTML;
+    // Apply inline styles to override everything
+    wrapper.style.width = '210mm';
+    wrapper.style.maxWidth = '210mm';
+    wrapper.style.minHeight = 'auto';
+    wrapper.style.padding = '12mm';
+    wrapper.style.margin = '0';
+    wrapper.style.background = '#ffffff';
+    wrapper.style.color = '#000000';
+    wrapper.style.fontFamily = 'Inter, sans-serif';
+    wrapper.style.fontSize = '12px';
+    wrapper.style.lineHeight = '1.4';
+    wrapper.style.boxSizing = 'border-box';
+    wrapper.style.overflow = 'visible';
+    wrapper.style.height = 'auto';
+    wrapper.style.maxHeight = 'none';
     
-    // PDF options
+    // Ensure all child elements are visible
+    wrapper.querySelectorAll('*').forEach(el => {
+        el.style.overflow = 'visible';
+        el.style.maxHeight = 'none';
+    });
+    
     const opt = {
-        margin: 0,
+        margin: [0, 0, 0, 0],
         filename: filename,
-        image: { type: 'jpeg', quality: 0.98 },
+        image: { type: 'jpeg', quality: 0.95 },
         html2canvas: { 
             scale: 2,
             useCORS: true,
             backgroundColor: '#ffffff',
             logging: false,
-            windowWidth: 794
+            windowWidth: 794,
+            height: null,
+            width: null
         },
         jsPDF: { 
             unit: 'mm', 
             format: 'a4', 
             orientation: 'portrait'
         },
-        pagebreak: { 
-            mode: ['css', 'legacy'],
-            avoid: '.cv-experience-item, .cv-education-item, .cv-certification-item'
-        }
+        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
     };
     
-    // Generate PDF directly
-    html2pdf().set(opt).from(pdfContainer).save();
+    html2pdf().set(opt).from(wrapper).save();
 }
