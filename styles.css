@@ -530,9 +530,9 @@ small {
     padding: 30px;
     border: 2px solid var(--border-accent);
     border-radius: 0;
-    width: 100%;
-    max-width: 794px;
-    aspect-ratio: 8.5 / 11;
+    width: 210mm;
+    height: 297mm;
+    max-width: 100%;
     overflow: auto;
     font-family: 'Inter', sans-serif;
     line-height: 1.4;
@@ -541,6 +541,7 @@ small {
     overflow-wrap: break-word;
     white-space: normal;
     box-sizing: border-box;
+    margin: 0 auto;
 }
 
 .cv-pages-container {
