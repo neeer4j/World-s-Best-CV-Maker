@@ -891,7 +891,7 @@ small {
         aspect-ratio: unset !important;
         border: none !important;
         box-shadow: none !important;
-        padding: 10mm !important;
+        padding: 8mm !important;
         margin: 0 !important;
         background: white !important;
         overflow: visible !important;
@@ -1008,6 +1008,6 @@ small {
     
     @page {
         size: A4;
-        margin: 10mm;
+        margin: 8mm;
     }
 }
