@@ -647,6 +647,22 @@ function downloadPDF() {
     const fullName = document.getElementById('fullName').value.trim() || 'CV';
     const filename = `${fullName.replace(/\s+/g, '_')}_CV.pdf`;
     
+    // Store original styles
+    const originalStyles = {
+        aspectRatio: cvPage1.style.aspectRatio,
+        overflow: cvPage1.style.overflow,
+        minHeight: cvPage1.style.minHeight,
+        maxHeight: cvPage1.style.maxHeight,
+        height: cvPage1.style.height
+    };
+    
+    // Temporarily remove constraints for PDF rendering
+    cvPage1.style.aspectRatio = 'unset';
+    cvPage1.style.overflow = 'visible';
+    cvPage1.style.minHeight = 'auto';
+    cvPage1.style.maxHeight = 'none';
+    cvPage1.style.height = 'auto';
+    
     // PDF options - simple and direct
     const opt = {
         margin: 10,
@@ -655,7 +671,8 @@ function downloadPDF() {
         html2canvas: { 
             scale: 2,
             useCORS: true,
-            backgroundColor: '#ffffff'
+            backgroundColor: '#ffffff',
+            windowHeight: cvPage1.scrollHeight + 100
         },
         jsPDF: { 
             unit: 'mm', 
@@ -665,6 +682,21 @@ function downloadPDF() {
         pagebreak: { mode: 'css' }
     };
     
-    // Generate PDF directly from the element
-    html2pdf().set(opt).from(cvPage1).save();
+    // Generate PDF and restore original styles
+    html2pdf().set(opt).from(cvPage1).save().then(() => {
+        // Restore original styles
+        cvPage1.style.aspectRatio = originalStyles.aspectRatio;
+        cvPage1.style.overflow = originalStyles.overflow;
+        cvPage1.style.minHeight = originalStyles.minHeight;
+        cvPage1.style.maxHeight = originalStyles.maxHeight;
+        cvPage1.style.height = originalStyles.height;
+    }).catch((error) => {
+        console.error('PDF generation error:', error);
+        // Restore original styles even on error
+        cvPage1.style.aspectRatio = originalStyles.aspectRatio;
+        cvPage1.style.overflow = originalStyles.overflow;
+        cvPage1.style.minHeight = originalStyles.minHeight;
+        cvPage1.style.maxHeight = originalStyles.maxHeight;
+        cvPage1.style.height = originalStyles.height;
+    });
 }
