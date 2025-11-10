@@ -647,29 +647,22 @@ function downloadPDF() {
     const fullName = document.getElementById('fullName').value.trim() || 'CV';
     const filename = `${fullName.replace(/\s+/g, '_')}_CV.pdf`;
     
-    // Create a clean container for PDF that mimics the preview exactly
+    // Create a clean container for PDF
     const pdfContainer = document.createElement('div');
     pdfContainer.style.cssText = `
         width: 210mm;
-        min-height: auto;
         padding: 15mm;
         background: #ffffff;
         color: #000000;
         font-family: 'Inter', sans-serif;
         box-sizing: border-box;
         margin: 0;
-        position: absolute;
-        left: -9999px;
-        top: 0;
     `;
     
     // Clone the content
     pdfContainer.innerHTML = cvPage1.innerHTML;
     
-    // Add to body for rendering
-    document.body.appendChild(pdfContainer);
-    
-    // PDF options with proper page break handling
+    // PDF options
     const opt = {
         margin: 0,
         filename: filename,
@@ -688,19 +681,10 @@ function downloadPDF() {
         },
         pagebreak: { 
             mode: ['css', 'legacy'],
-            avoid: ['.cv-experience-item', '.cv-education-item', '.cv-certification-item']
+            avoid: '.cv-experience-item, .cv-education-item, .cv-certification-item'
         }
     };
     
-    // Generate PDF and cleanup
-    html2pdf().set(opt).from(pdfContainer).toPdf().get('pdf').then(function(pdf) {
-        const totalPages = pdf.internal.getNumberOfPages();
-        pdf.save();
-        document.body.removeChild(pdfContainer);
-    }).catch((error) => {
-        console.error('PDF generation error:', error);
-        if (document.body.contains(pdfContainer)) {
-            document.body.removeChild(pdfContainer);
-        }
-    });
+    // Generate PDF directly
+    html2pdf().set(opt).from(pdfContainer).save();
 }
