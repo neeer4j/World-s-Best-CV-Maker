@@ -5,6 +5,35 @@ let certificationCount = 0;
 let uploadedPhoto = null;
 let fontSizeMultiplier = 1.0; // Default font size multiplier (100%)
 
+// Welcome Banner - Start Creating Function
+function startCreating() {
+    const welcomeBanner = document.getElementById('welcomeBanner');
+    const mainApp = document.getElementById('mainApp');
+    
+    // Fade out welcome banner
+    welcomeBanner.style.animation = 'fadeOut 0.5s ease-out';
+    
+    setTimeout(() => {
+        welcomeBanner.style.display = 'none';
+        mainApp.style.display = 'block';
+        mainApp.style.animation = 'fadeIn 0.5s ease-in';
+    }, 500);
+}
+
+// Add fadeOut animation
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes fadeOut {
+        from {
+            opacity: 1;
+        }
+        to {
+            opacity: 0;
+        }
+    }
+`;
+document.head.appendChild(style);
+
 // Initialize the form with one experience and education entry
 document.addEventListener('DOMContentLoaded', () => {
     addExperience();

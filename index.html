@@ -7,7 +7,39 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
+    <!-- Welcome Banner Screen -->
+    <div class="welcome-banner" id="welcomeBanner">
+        <div class="welcome-content">
+            <div class="welcome-icon">📄</div>
+            <h1 class="welcome-title">World's Best CV Maker</h1>
+            <p class="welcome-subtitle">Create an elegant, ATS-optimized resume with a timeless design</p>
+            <div class="welcome-features">
+                <div class="feature-item">
+                    <span class="feature-icon">✨</span>
+                    <span>Professional Templates</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">🎯</span>
+                    <span>ATS-Friendly Format</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">📱</span>
+                    <span>Instant PDF Download</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">🎨</span>
+                    <span>Customizable Design</span>
+                </div>
+            </div>
+            <button class="btn-get-started" onclick="startCreating()">
+                Get Started
+                <span class="arrow-icon">→</span>
+            </button>
+            <p class="welcome-footer">No sign-up required • 100% Free • Export to PDF</p>
+        </div>
+    </div>
+
+    <div class="container" id="mainApp" style="display: none;">
         <header>
             <div class="header-top">
                 <a href="https://github.com/neeer4j" target="_blank" class="developer-link" title="Meet the Developer">
