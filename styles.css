@@ -187,39 +187,40 @@
     margin-top: 20px;
 }
 
-/* Welcome banner - Meet the developer (8-bit retro style) */
+/* Welcome banner - Meet the developer (simple app style) */
 .welcome-dev {
     position: absolute;
-    top: 18px;
-    left: 18px;
+    top: 16px;
+    left: 16px;
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 8px 10px;
-    background: linear-gradient(90deg, var(--bg-tertiary) 0%, var(--bg-secondary) 100%);
-    border: 3px solid var(--border-accent);
-    box-shadow: 6px 6px 0 rgba(0,0,0,0.35), -3px -3px 0 rgba(255,255,255,0.02);
+    padding: 8px 12px;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--border-accent);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.25);
     text-decoration: none;
     color: var(--text-primary);
-    font-family: 'Press Start 2P', monospace;
-    font-size: 0.7rem;
-    letter-spacing: 1px;
-    border-radius: 2px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    letter-spacing: 0.2px;
+    border-radius: 6px;
     z-index: 10000;
 }
 
 .welcome-dev .github-icon {
-    font-size: 1.1rem;
+    width: 18px;
+    height: 18px;
+    display: inline-block;
 }
 
 .welcome-dev .dev-name {
     display: inline-block;
-    transform: translateY(-1px);
 }
 
 .welcome-dev:hover {
     transform: translateY(-2px);
-    box-shadow: 8px 8px 0 rgba(0,0,0,0.4), -3px -3px 0 rgba(255,255,255,0.03);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.35);
 }
 
 @media (max-width: 480px) {
@@ -227,9 +228,8 @@
         top: 12px;
         left: 12px;
         padding: 6px 8px;
-        font-size: 0.65rem;
+        font-size: 0.85rem;
     }
-    .welcome-dev .dev-name { display: none; }
 }
 
 /* Responsive Design for Welcome Banner */
