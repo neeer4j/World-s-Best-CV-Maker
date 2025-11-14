@@ -1706,13 +1706,16 @@ small {
         margin-bottom: 2mm !important;
     }
 
-    /* Skills - render single column in print for consistent flow */
+    /* Skills - render two columns in print to match on-screen preview */
     .cv-skills .skills-list {
-        -webkit-columns: 1 !important;
-        -moz-columns: 1 !important;
-        columns: 1 !important;
-        column-gap: 0 !important;
-        padding-left: 10px !important;
+        -webkit-columns: 2 !important;
+        -moz-columns: 2 !important;
+        columns: 2 !important;
+        column-gap: 12px !important;
+        padding-left: 12px !important;
+        -webkit-column-break-inside: avoid !important;
+        -moz-column-break-inside: avoid !important;
+        break-inside: avoid-column !important;
     }
     
     .cv-photo-display img {
