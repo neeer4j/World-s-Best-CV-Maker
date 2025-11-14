@@ -175,6 +175,14 @@ function toggleTheme() {
     // Set CSS custom properties for bloom position
     document.documentElement.style.setProperty('--bloom-x', `${x}px`);
     document.documentElement.style.setProperty('--bloom-y', `${y}px`);
+    // Choose a bloom color depending on new theme for a nicer effect
+    if (newTheme === 'light') {
+        // subtle bright bloom for light theme
+        document.documentElement.style.setProperty('--bloom-color', 'rgba(255,255,255,0.12)');
+    } else {
+        // subtle dark bloom for dark theme
+        document.documentElement.style.setProperty('--bloom-color', 'rgba(0,0,0,0.18)');
+    }
     
     // Add transitioning class to trigger bloom animation
     document.body.classList.add('theme-transitioning');
@@ -182,7 +190,7 @@ function toggleTheme() {
     // Remove transitioning class after animation completes
     setTimeout(() => {
         document.body.classList.remove('theme-transitioning');
-    }, 600);
+    }, 650);
 }
 
 // Update Theme Icon
