@@ -20,6 +20,26 @@ function startCreating() {
     }, 500);
 }
 
+// Return to welcome banner from main app
+function goHome() {
+    const welcomeBanner = document.getElementById('welcomeBanner');
+    const mainApp = document.getElementById('mainApp');
+    if (!welcomeBanner || !mainApp) return;
+
+    // Show welcome banner with fade-in
+    welcomeBanner.style.display = 'flex';
+    welcomeBanner.style.animation = 'fadeIn 0.4s ease-in';
+
+    // Hide main app
+    mainApp.style.animation = 'fadeOut 0.3s ease-out';
+    setTimeout(() => {
+        mainApp.style.display = 'none';
+    }, 300);
+
+    // Scroll to top for good measure
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
 // Add fadeOut animation
 const style = document.createElement('style');
 style.textContent = `
