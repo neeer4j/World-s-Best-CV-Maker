@@ -616,7 +616,7 @@ function generatePreview() {
                 break;
                 
             case 'skills':
-                cvHTML += `<div class="cv-skills">${escapeHtml(section.content)}</div>`;
+                cvHTML += `<div class="cv-skills">${formatSkills(section.content)}</div>`;
                 break;
                 
             case 'certifications':
@@ -763,6 +763,27 @@ function escapeHtml(text) {
     const div = document.createElement('div');
     div.textContent = text;
     return div.innerHTML;
+}
+
+// Format skills into a two-column bullet list (comma or newline separated)
+function formatSkills(text) {
+    if (!text) return '';
+
+    // Split on commas or newlines
+    const raw = text.split(/[,\n]+/).map(s => s.trim()).filter(s => s !== '');
+    if (raw.length === 0) return '';
+
+    // If only one skill string, just escape and return
+    if (raw.length === 1) {
+        return escapeHtml(raw[0]);
+    }
+
+    let html = '<ul class="skills-list">';
+    raw.forEach(skill => {
+        html += `<li>${escapeHtml(skill)}</li>`;
+    });
+    html += '</ul>';
+    return html;
 }
 
 // Download CV as PDF
