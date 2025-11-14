@@ -40,6 +40,39 @@ function goHome() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
+// Help modal controls
+function openHelp() {
+    const modal = document.getElementById('helpModal');
+    if (!modal) return;
+    modal.removeAttribute('hidden');
+    // trap focus on close button
+    const closeBtn = modal.querySelector('.help-close');
+    if (closeBtn) closeBtn.focus();
+    // close on Escape
+    document.addEventListener('keydown', helpKeyHandler);
+}
+
+function closeHelp() {
+    const modal = document.getElementById('helpModal');
+    if (!modal) return;
+    modal.setAttribute('hidden', '');
+    document.removeEventListener('keydown', helpKeyHandler);
+}
+
+function helpKeyHandler(e) {
+    if (e.key === 'Escape') closeHelp();
+}
+
+// close when clicking outside modal content
+document.addEventListener('click', function(e) {
+    const modal = document.getElementById('helpModal');
+    if (!modal || modal.hasAttribute('hidden')) return;
+    const content = modal.querySelector('.help-modal-content');
+    if (content && !content.contains(e.target)) {
+        closeHelp();
+    }
+});
+
 // Add fadeOut animation
 const style = document.createElement('style');
 style.textContent = `

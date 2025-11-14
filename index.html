@@ -184,7 +184,10 @@
             <div class="preview-section">
                 <div class="preview-header">
                     <h2>CV Preview</h2>
-                    <button type="button" class="btn-download" onclick="downloadPDF()">Download PDF</button>
+                    <div class="preview-header-actions">
+                        <button type="button" class="btn-help" onclick="openHelp()" aria-label="Need help">Need help</button>
+                        <button type="button" class="btn-download" onclick="downloadPDF()">Download PDF</button>
+                    </div>
                 </div>
                 <div class="cv-pages-container">
                     <div id="cvPage1" class="cv-preview cv-page">
@@ -212,6 +215,28 @@
                 <li>Use standard fonts and bullet points</li>
                 <li>Save as PDF to preserve formatting</li>
             </ul>
+        </div>
+    </div>
+
+    <!-- Help Modal -->
+    <div id="helpModal" class="help-modal" role="dialog" aria-modal="true" aria-labelledby="helpTitle" hidden>
+        <div class="help-modal-content">
+            <button class="help-close" aria-label="Close help" onclick="closeHelp()">✕</button>
+            <h3 id="helpTitle">Quick help</h3>
+            <div class="help-body">
+                <ul>
+                    <li><strong>Generate Preview:</strong> Fill fields and click <em>Generate Preview</em> to render your CV.</li>
+                    <li><strong>Download PDF:</strong> Click <em>Download PDF</em> — the browser print dialog will let you save as PDF.</li>
+                    <li><strong>Font Size:</strong> Use the <em>Font Size</em> slider to scale text (80%–120%) before downloading.</li>
+                    <li><strong>Photo:</strong> Upload a passport-style photo (35×45mm ratio). It appears in preview and PDF.</li>
+                    <li><strong>Skills:</strong> Enter skills separated by commas or new lines; they render as a two-column list.</li>
+                    <li><strong>Sections:</strong> Add/remove entries in Experience, Education, Certifications using the + / − buttons.</li>
+                </ul>
+                <p class="muted">Tip: Use landscape on mobile for editing. For print, check browser margins and "Background graphics" enabled for exact look.</p>
+            </div>
+            <div class="help-actions">
+                <button class="btn-primary" onclick="closeHelp()">Got it</button>
+            </div>
         </div>
     </div>
 

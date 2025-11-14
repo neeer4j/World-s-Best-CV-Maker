@@ -825,6 +825,89 @@ small {
     margin-bottom: 25px;
 }
 
+.preview-header-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.btn-help {
+    background: transparent;
+    color: var(--text-primary);
+    border: 1px solid var(--border-accent);
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-help:hover {
+    background: var(--bg-tertiary);
+}
+
+/* Help modal styles */
+.help-modal {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.45);
+    z-index: 10050;
+}
+
+.help-modal[hidden] {
+    display: none;
+}
+
+.help-modal-content {
+    width: 520px;
+    max-width: calc(100% - 32px);
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    padding: 20px 22px 18px 22px;
+    border-radius: 10px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+    position: relative;
+}
+
+.help-modal-content h3 {
+    margin-bottom: 8px;
+}
+
+.help-modal-content .help-body ul {
+    list-style: disc;
+    margin-left: 18px;
+}
+
+.help-modal-content .muted {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    margin-top: 10px;
+}
+
+.help-close {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+
+.help-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 12px;
+}
+
+@media (max-width: 480px) {
+    .help-modal-content { padding: 14px; }
+    .help-modal-content h3 { font-size: 1.05rem; }
+}
+
 .btn-download {
     background: var(--button-bg);
     color: var(--button-text);
