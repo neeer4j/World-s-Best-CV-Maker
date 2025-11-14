@@ -271,7 +271,7 @@
 
 .falling-words .falling-word {
     position: absolute;
-    top: -10%;
+    top: 0; /* start at the top of the banner container */
     white-space: nowrap;
     will-change: transform, opacity;
     transform-origin: center;
@@ -285,17 +285,17 @@
 
 @keyframes fall {
     0% {
-        transform: translateY(-10%) rotate(var(--start-rot, 0deg));
+        transform: translateY(-20vh) rotate(var(--start-rot, 0deg));
         opacity: 0.02;
     }
     10% {
-        opacity: 0.06;
+        opacity: 0.08;
     }
     90% {
-        opacity: 0.06;
+        opacity: 0.08;
     }
     100% {
-        transform: translateY(110%) rotate(var(--end-rot, 0deg));
+        transform: translateY(120vh) rotate(var(--end-rot, 0deg));
         opacity: 0.02;
     }
 }

@@ -220,10 +220,11 @@ function spawnFallingWord(container, text) {
     span.style.setProperty('--start-rot', rot + 'deg');
     span.style.setProperty('--end-rot', (rot + Math.floor(-15 + Math.random() * 30)) + 'deg');
 
-    // random animation duration and delay
-    const duration = 7 + Math.random() * 8; // 7s to 15s
-    const delay = Math.random() * 3; // staggered
-    span.style.animation = `fall ${duration}s linear ${delay}s forwards`;
+    // random animation duration and delay (shorter so words move faster)
+    const duration = 5 + Math.random() * 4; // 5s to 9s
+    const delay = Math.random() * 1.5; // staggered
+    // use 'both' so initial and final states are applied during animation lifecycle
+    span.style.animation = `fall ${duration}s linear ${delay}s both`;
 
     // slightly vary opacity so words are subtle
     span.style.opacity = (0.03 + Math.random() * 0.12).toFixed(2);
