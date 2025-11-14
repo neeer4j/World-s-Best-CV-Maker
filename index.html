@@ -13,8 +13,16 @@
 <body>
     <!-- Welcome Banner Screen -->
     <div class="welcome-banner" id="welcomeBanner">
-        <!-- Animated falling words background (low opacity) -->
-        <div class="falling-words" id="fallingWords" aria-hidden="true"></div>
+        <!-- Animated wavy background (decorative) -->
+            <div class="wave-bg" id="waveBg" aria-hidden="true">
+                <!-- two layered SVG waves animated with CSS -->
+                <svg class="wave wave--front" viewBox="0 0 1200 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0,50 C150,150 350,0 600,60 C850,120 1050,20 1200,80 L1200,200 L0,200 Z" fill="rgba(255,255,255,0.06)"></path>
+                </svg>
+                <svg class="wave wave--back" viewBox="0 0 1200 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0,80 C200,10 400,150 650,90 C900,30 1050,140 1200,80 L1200,200 L0,200 Z" fill="rgba(255,255,255,0.04)"></path>
+                </svg>
+            </div>
         <!-- Meet the developer -->
         <a href="https://github.com/neeer4j" target="_blank" class="welcome-dev" aria-label="Meet the developer on GitHub">
             <!-- Inline GitHub SVG icon -->

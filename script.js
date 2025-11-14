@@ -4,15 +4,13 @@ let educationCount = 0;
 let certificationCount = 0;
 let uploadedPhoto = null;
 let fontSizeMultiplier = 1.0; // Default font size multiplier (100%)
-let fallingWordsInterval = null;
-let fallingWordsActive = false;
+// falling-words removed in favor of decorative wave background
 
 // Welcome Banner - Start Creating Function
 function startCreating() {
     const welcomeBanner = document.getElementById('welcomeBanner');
     const mainApp = document.getElementById('mainApp');
-    // stop landing animations when moving into the app
-    try { stopFallingWords(); } catch (err) { /* ignore if not initialized */ }
+    // decorative wave background is CSS/SVG-driven; no JS teardown required
     
     // Fade out welcome banner
     welcomeBanner.style.animation = 'fadeOut 0.5s ease-out';
@@ -60,13 +58,7 @@ function onAppReady() {
         }
     });
 
-    // Initialize falling words animation on landing banner (if present)
-    try {
-        const welcomeBanner = document.getElementById('welcomeBanner');
-        if (welcomeBanner) initFallingWords();
-    } catch (err) {
-        // ignore if any issue
-    }
+    // decorative wave background present in markup; no JS init required
 }
 
 if (document.readyState === 'loading') {
@@ -141,137 +133,7 @@ function toggleTheme() {
     }, 650);
 }
 
-// --- Landing page falling words animation ---
-function initFallingWords() {
-    try { console.debug && console.debug('initFallingWords()'); } catch (e) {}
-    if (fallingWordsActive) return;
-    fallingWordsActive = true;
-    const container = document.getElementById('fallingWords');
-    if (!container) return;
-
-    const phrases = [
-        "No job?",
-        "Lost your last job?",
-        "Don't know how to write a CV?",
-        "Resume feels empty?",
-        "Not sure what to include?",
-        "Confused about keywords?",
-        "No interview calls?",
-        "Unemployed?",
-        "Need help with formatting?",
-        "How to describe experience?",
-        "Worried about ATS?",
-        "Not tech-savvy?",
-        "Don't know templates?",
-        "Need a quick CV?",
-        "Scared of rejection?",
-        "Where to start?",
-        "No time to write?",
-        "Need better layout?",
-        "Too many gaps?",
-        "Short on achievements?"
-    ];
-
-    // For a cleaner single pop effect we limit to 1 visible at a time and spawn one-by-one
-    const spawnSpeed = window.innerWidth <= 768 ? 900 : 700; // time between pops
-    const maxActive = 1; // one at a time
-    let activeCount = 0;
-
-    function spawnRandom() {
-        if (!container || activeCount >= maxActive) return;
-        const phrase = phrases[Math.floor(Math.random() * phrases.length)];
-        spawnFallingWord(container, phrase);
-        activeCount++;
-        // decrement activeCount when element removed inside spawnFallingWord via its timeout
-    }
-
-    // Listen for removal events to allow next pop
-    const removalHandler = () => { if (activeCount > 0) activeCount--; };
-    document.addEventListener('popword:removed', removalHandler);
-
-    // Start regular spawn loop (one-by-one)
-    fallingWordsInterval = setInterval(() => {
-        spawnRandom();
-        if (!document.body.contains(container)) stopFallingWords();
-    }, spawnSpeed);
-
-    // ensure the removal handler is cleaned up when stopped
-    const originalStop = stopFallingWords;
-    stopFallingWords = function() {
-        document.removeEventListener('popword:removed', removalHandler);
-        if (fallingWordsInterval) {
-            clearInterval(fallingWordsInterval);
-            fallingWordsInterval = null;
-        }
-        fallingWordsActive = false;
-        if (container) container.innerHTML = '';
-    };
-}
-
-function spawnFallingWord(container, text) {
-    if (!container) return;
-    const span = document.createElement('span');
-    span.className = 'falling-word';
-    span.textContent = text;
-
-    // random horizontal position
-    const left = Math.random() * 90; // percent
-    span.style.left = `${left}%`;
-
-    // random font size and slight rotation
-    const minSize = 18;
-    const maxSize = 38;
-    const size = Math.floor(minSize + Math.random() * (maxSize - minSize));
-    span.style.fontSize = `${size}px`;
-
-    const rot = Math.floor(-20 + Math.random() * 40);
-    span.style.setProperty('--start-rot', rot + 'deg');
-    span.style.setProperty('--end-rot', (rot + Math.floor(-15 + Math.random() * 30)) + 'deg');
-
-    // pop animation duration and visibility (short, so each word is a single pop)
-    const duration = 1 + Math.random() * 1.2; // 1s to 2.2s
-    const delay = 0; // immediate
-    span.style.animation = `pop ${duration}s ease-in-out ${delay}s both`;
-
-    // set location randomly inside the banner (avoid edges)
-    const bannerRect = container.getBoundingClientRect();
-    // left: 6% - 88% of width
-    const leftPx = Math.floor(bannerRect.width * (0.06 + Math.random() * 0.82));
-    // top: 8% - 82% of height
-    const topPx = Math.floor(bannerRect.height * (0.08 + Math.random() * 0.74));
-    span.style.left = `${leftPx}px`;
-    span.style.top = `${topPx}px`;
-
-    // slightly vary opacity so words are subtle but visible
-    span.style.opacity = (0.06 + Math.random() * 0.12).toFixed(2);
-
-    container.appendChild(span);
-
-    // Remove after animation completes
-    const total = (duration + delay) * 1000 + 120;
-    setTimeout(() => {
-        if (span && span.parentNode) span.parentNode.removeChild(span);
-        // decrement active count so next pop can appear
-        try { /* find parent activeCount via closure */ } catch (e) {}
-        // neat approach: dispatch a custom event so initFallingWords' spawn loop can track count
-        const ev = new CustomEvent('popword:removed');
-        document.dispatchEvent(ev);
-    }, total);
-}
-
-function stopFallingWords() {
-    fallingWordsActive = false;
-    if (fallingWordsInterval) {
-        clearInterval(fallingWordsInterval);
-        fallingWordsInterval = null;
-    }
-    const container = document.getElementById('fallingWords');
-    if (container) {
-        container.innerHTML = '';
-    }
-}
-
-// --- end landing animation ---
+// decorative wave background implemented in HTML/CSS (no JS required)
 
 // Update Theme Icon
 function updateThemeIcon() {

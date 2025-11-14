@@ -1278,6 +1278,45 @@ small {
     word-wrap: break-word;
 }
 
+/* Decorative wave background on welcome banner */
+.wave-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.wave-bg .wave {
+    position: absolute;
+    left: -20%;
+    width: 140%;
+    height: 48%;
+    bottom: -6%;
+    transform-origin: center;
+    opacity: 1;
+}
+
+.wave-bg .wave--front {
+    animation: waveMove 10s linear infinite;
+}
+
+.wave-bg .wave--back {
+    bottom: -10%;
+    opacity: 0.9;
+    animation: waveMove 16s linear infinite reverse;
+}
+
+@keyframes waveMove {
+    0% { transform: translateX(0) translateY(0) rotate(0deg); }
+    50% { transform: translateX(-6%) translateY(-2%) rotate(0.2deg); }
+    100% { transform: translateX(0) translateY(0) rotate(0deg); }
+}
+
+@media (max-width: 480px) {
+    .wave-bg { display: none; }
+}
+
 /* Dynamic font sizing based on content density */
 /* Compact: Large fonts for sparse content */
 .cv-compact .cv-name {
