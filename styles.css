@@ -434,8 +434,8 @@ header h1 {
 }
 
 .photo-preview {
-    width: 105px;
-    height: 135px;
+    width: 120px;
+    height: 155px;
     border: 2px solid var(--border-accent);
     display: flex;
     align-items: center;
@@ -860,8 +860,8 @@ small {
 }
 
 .cv-photo-display img {
-    width: 80px;
-    height: 80px;
+    width: 90px;
+    height: 115px;
     border-radius: 3px;
     object-fit: cover;
     border: 1px solid #333;
@@ -1719,8 +1719,8 @@ small {
     }
     
     .cv-photo-display img {
-        width: 60px !important;
-        height: 77px !important;
+        width: 85px !important;
+        height: 115px !important;
     }
     
     /* Print-specific adjustments for compact mode */
