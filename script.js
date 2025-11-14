@@ -5,6 +5,9 @@ let certificationCount = 0;
 let uploadedPhoto = null;
 let fontSizeMultiplier = 1.0; // Default font size multiplier (100%)
 // falling-words removed in favor of decorative wave background
+// Help modal handlers (kept globally so we can add/remove listeners cleanly)
+let helpModalClickHandler = null;
+let helpKeyHandler = null;
 
 // Welcome Banner - Start Creating Function
 function startCreating() {
@@ -20,6 +23,62 @@ function startCreating() {
         mainApp.style.display = 'block';
         mainApp.style.animation = 'fadeIn 0.5s ease-in';
     }, 500);
+}
+
+// Return to welcome banner from main app
+function goHome() {
+    const welcomeBanner = document.getElementById('welcomeBanner');
+    const mainApp = document.getElementById('mainApp');
+    if (!welcomeBanner || !mainApp) return;
+
+    // Show welcome banner with fade-in
+    welcomeBanner.style.display = 'flex';
+    welcomeBanner.style.animation = 'fadeIn 0.4s ease-in';
+
+    // Hide main app
+    mainApp.style.animation = 'fadeOut 0.3s ease-out';
+    setTimeout(() => {
+        mainApp.style.display = 'none';
+    }, 300);
+
+    // Scroll to top for good measure
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Help modal controls
+function openHelp(e) {
+    if (e && typeof e.stopPropagation === 'function') e.stopPropagation();
+    const modal = document.getElementById('helpModal');
+    if (!modal) return;
+    modal.removeAttribute('hidden');
+    const closeBtn = modal.querySelector('.help-close');
+    if (closeBtn) closeBtn.focus();
+
+    // key handler
+    helpKeyHandler = function(evt) {
+        if (evt.key === 'Escape') closeHelp();
+    };
+    document.addEventListener('keydown', helpKeyHandler);
+
+    // click on overlay (modal itself) to close
+    helpModalClickHandler = function(evt) {
+        if (evt.target === modal) closeHelp();
+    };
+    modal.addEventListener('click', helpModalClickHandler);
+}
+
+function closeHelp() {
+    const modal = document.getElementById('helpModal');
+    if (!modal) return;
+    modal.setAttribute('hidden', '');
+    if (helpKeyHandler) {
+        document.removeEventListener('keydown', helpKeyHandler);
+        helpKeyHandler = null;
+    }
+    if (helpModalClickHandler) {
+        modal.removeEventListener('click', helpModalClickHandler);
+        helpModalClickHandler = null;
+    }
 }
 
 // App ready initialization (runs immediately if DOM already parsed)
