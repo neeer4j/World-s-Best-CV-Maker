@@ -269,9 +269,10 @@
     z-index: 1; /* behind welcome content */
 }
 
+
 .falling-words .falling-word {
     position: absolute;
-    top: 0; /* start at the top of the banner container */
+    /* top and left are set dynamically per word for a scattered pop effect */
     white-space: nowrap;
     will-change: transform, opacity;
     transform-origin: center;
@@ -281,6 +282,7 @@
     mix-blend-mode: normal;
     text-transform: none;
     user-select: none;
+    pointer-events: none;
 }
 
 @keyframes fall {
@@ -297,6 +299,26 @@
     100% {
         transform: translateY(120vh) rotate(var(--end-rot, 0deg));
         opacity: 0.02;
+    }
+}
+
+/* Pop animation for single-word appearance */
+@keyframes pop {
+    0% {
+        transform: scale(0.75) translateY(0) rotate(var(--start-rot, 0deg));
+        opacity: 0;
+    }
+    20% {
+        transform: scale(1.05) translateY(0) rotate(var(--start-rot, 0deg));
+        opacity: 0.14;
+    }
+    80% {
+        transform: scale(1.0) translateY(0) rotate(var(--end-rot, 0deg));
+        opacity: 0.12;
+    }
+    100% {
+        transform: scale(0.8) translateY(0) rotate(var(--end-rot, 0deg));
+        opacity: 0;
     }
 }
 

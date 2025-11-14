@@ -172,8 +172,9 @@ function initFallingWords() {
         "Short on achievements?"
     ];
 
-    const spawnSpeed = window.innerWidth <= 768 ? 650 : 350; // mobile slower spawn
-    const maxActive = window.innerWidth <= 768 ? 12 : 30;
+    // For a cleaner single pop effect we limit to 1 visible at a time and spawn one-by-one
+    const spawnSpeed = window.innerWidth <= 768 ? 900 : 700; // time between pops
+    const maxActive = 1; // one at a time
     let activeCount = 0;
 
     function spawnRandom() {
@@ -181,23 +182,30 @@ function initFallingWords() {
         const phrase = phrases[Math.floor(Math.random() * phrases.length)];
         spawnFallingWord(container, phrase);
         activeCount++;
-        // decrement activeCount when element removed inside spawnFallingWord
+        // decrement activeCount when element removed inside spawnFallingWord via its timeout
     }
 
-    // Spawn initial burst
-    for (let i = 0; i < Math.min(8, maxActive); i++) {
-        setTimeout(spawnRandom, i * 200);
-    }
+    // Listen for removal events to allow next pop
+    const removalHandler = () => { if (activeCount > 0) activeCount--; };
+    document.addEventListener('popword:removed', removalHandler);
 
+    // Start regular spawn loop (one-by-one)
     fallingWordsInterval = setInterval(() => {
-        // occasionally spawn
         spawnRandom();
-        // cleanup if container removed
         if (!document.body.contains(container)) stopFallingWords();
     }, spawnSpeed);
 
-    // expose activeCount tracking via closure by patching spawnFallingWord to decrement
-    // (spawnFallingWord will decrement when its timeout completes)
+    // ensure the removal handler is cleaned up when stopped
+    const originalStop = stopFallingWords;
+    stopFallingWords = function() {
+        document.removeEventListener('popword:removed', removalHandler);
+        if (fallingWordsInterval) {
+            clearInterval(fallingWordsInterval);
+            fallingWordsInterval = null;
+        }
+        fallingWordsActive = false;
+        if (container) container.innerHTML = '';
+    };
 }
 
 function spawnFallingWord(container, text) {
@@ -220,22 +228,34 @@ function spawnFallingWord(container, text) {
     span.style.setProperty('--start-rot', rot + 'deg');
     span.style.setProperty('--end-rot', (rot + Math.floor(-15 + Math.random() * 30)) + 'deg');
 
-    // random animation duration and delay (shorter so words move faster)
-    const duration = 5 + Math.random() * 4; // 5s to 9s
-    const delay = Math.random() * 1.5; // staggered
-    // use 'both' so initial and final states are applied during animation lifecycle
-    span.style.animation = `fall ${duration}s linear ${delay}s both`;
+    // pop animation duration and visibility (short, so each word is a single pop)
+    const duration = 1 + Math.random() * 1.2; // 1s to 2.2s
+    const delay = 0; // immediate
+    span.style.animation = `pop ${duration}s ease-in-out ${delay}s both`;
 
-    // slightly vary opacity so words are subtle
-    span.style.opacity = (0.03 + Math.random() * 0.12).toFixed(2);
+    // set location randomly inside the banner (avoid edges)
+    const bannerRect = container.getBoundingClientRect();
+    // left: 6% - 88% of width
+    const leftPx = Math.floor(bannerRect.width * (0.06 + Math.random() * 0.82));
+    // top: 8% - 82% of height
+    const topPx = Math.floor(bannerRect.height * (0.08 + Math.random() * 0.74));
+    span.style.left = `${leftPx}px`;
+    span.style.top = `${topPx}px`;
+
+    // slightly vary opacity so words are subtle but visible
+    span.style.opacity = (0.06 + Math.random() * 0.12).toFixed(2);
 
     container.appendChild(span);
 
     // Remove after animation completes
-    const total = (duration + delay) * 1000 + 500;
+    const total = (duration + delay) * 1000 + 120;
     setTimeout(() => {
         if (span && span.parentNode) span.parentNode.removeChild(span);
-        // update active count if we want finer control in future
+        // decrement active count so next pop can appear
+        try { /* find parent activeCount via closure */ } catch (e) {}
+        // neat approach: dispatch a custom event so initFallingWords' spawn loop can track count
+        const ev = new CustomEvent('popword:removed');
+        document.dispatchEvent(ev);
     }, total);
 }
 
