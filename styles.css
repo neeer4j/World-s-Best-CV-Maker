@@ -187,6 +187,51 @@
     margin-top: 20px;
 }
 
+/* Welcome banner - Meet the developer (8-bit retro style) */
+.welcome-dev {
+    position: absolute;
+    top: 18px;
+    left: 18px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    background: linear-gradient(90deg, var(--bg-tertiary) 0%, var(--bg-secondary) 100%);
+    border: 3px solid var(--border-accent);
+    box-shadow: 6px 6px 0 rgba(0,0,0,0.35), -3px -3px 0 rgba(255,255,255,0.02);
+    text-decoration: none;
+    color: var(--text-primary);
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 1px;
+    border-radius: 2px;
+    z-index: 10000;
+}
+
+.welcome-dev .github-icon {
+    font-size: 1.1rem;
+}
+
+.welcome-dev .dev-name {
+    display: inline-block;
+    transform: translateY(-1px);
+}
+
+.welcome-dev:hover {
+    transform: translateY(-2px);
+    box-shadow: 8px 8px 0 rgba(0,0,0,0.4), -3px -3px 0 rgba(255,255,255,0.03);
+}
+
+@media (max-width: 480px) {
+    .welcome-dev {
+        top: 12px;
+        left: 12px;
+        padding: 6px 8px;
+        font-size: 0.65rem;
+    }
+    .welcome-dev .dev-name { display: none; }
+}
+
 /* Responsive Design for Welcome Banner */
 @media (max-width: 768px) {
     .welcome-title {
