@@ -4,11 +4,15 @@ let educationCount = 0;
 let certificationCount = 0;
 let uploadedPhoto = null;
 let fontSizeMultiplier = 1.0; // Default font size multiplier (100%)
+let fallingWordsInterval = null;
+let fallingWordsActive = false;
 
 // Welcome Banner - Start Creating Function
 function startCreating() {
     const welcomeBanner = document.getElementById('welcomeBanner');
     const mainApp = document.getElementById('mainApp');
+    // stop landing animations when moving into the app
+    try { stopFallingWords(); } catch (err) { /* ignore if not initialized */ }
     
     // Fade out welcome banner
     welcomeBanner.style.animation = 'fadeOut 0.5s ease-out';
@@ -20,145 +24,56 @@ function startCreating() {
     }, 500);
 }
 
-// Return to welcome banner from main app
-function goHome() {
-    const welcomeBanner = document.getElementById('welcomeBanner');
-    const mainApp = document.getElementById('mainApp');
-    if (!welcomeBanner || !mainApp) return;
-
-    // Show welcome banner with fade-in
-    welcomeBanner.style.display = 'flex';
-    welcomeBanner.style.animation = 'fadeIn 0.4s ease-in';
-
-    // Hide main app
-    mainApp.style.animation = 'fadeOut 0.3s ease-out';
-    setTimeout(() => {
-        mainApp.style.display = 'none';
-    }, 300);
-
-    // Scroll to top for good measure
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-// Help modal controls
-function openHelp() {
-    const modal = document.getElementById('helpModal');
-    if (!modal) return;
-    modal.removeAttribute('hidden');
-    // trap focus on close button
-    const closeBtn = modal.querySelector('.help-close');
-    if (closeBtn) closeBtn.focus();
-    // close on Escape
-    document.addEventListener('keydown', helpKeyHandler);
-}
-
-function closeHelp() {
-    const modal = document.getElementById('helpModal');
-    if (!modal) return;
-    modal.setAttribute('hidden', '');
-    document.removeEventListener('keydown', helpKeyHandler);
-}
-
-function helpKeyHandler(e) {
-    if (e.key === 'Escape') closeHelp();
-}
-
-// close when clicking outside modal content
-document.addEventListener('click', function(e) {
-    const modal = document.getElementById('helpModal');
-    if (!modal || modal.hasAttribute('hidden')) return;
-    const content = modal.querySelector('.help-modal-content');
-    if (content && !content.contains(e.target)) {
-        closeHelp();
-    }
-});
-
-// Add fadeOut animation
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes fadeOut {
-        from {
-            opacity: 1;
-        }
-        to {
-            opacity: 0;
-        }
-    }
-`;
-document.head.appendChild(style);
-
-// Mobile detection and optimization
-function isMobileDevice() {
-    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) 
-           || window.innerWidth <= 768;
-}
-
-// Optimize for mobile on load
-if (isMobileDevice()) {
-    document.body.classList.add('mobile-device');
-    
-    // Add helpful mobile tip
-    const addMobileTip = () => {
-        const tipsSection = document.querySelector('.tips-section ul');
-        if (tipsSection && !document.querySelector('.mobile-tip')) {
-            const mobileTip = document.createElement('li');
-            mobileTip.className = 'mobile-tip';
-            mobileTip.innerHTML = '📱 <strong>Mobile Tip:</strong> For best experience, use landscape mode when editing your CV';
-            mobileTip.style.color = 'var(--primary-color)';
-            mobileTip.style.fontWeight = '500';
-            tipsSection.insertBefore(mobileTip, tipsSection.firstChild);
-        }
-    };
-    
-    // Add tip after app loads
-    setTimeout(addMobileTip, 1000);
-}
-
-// Initialize the form with one experience and education entry
-document.addEventListener('DOMContentLoaded', () => {
+// App ready initialization (runs immediately if DOM already parsed)
+function onAppReady() {
+    try { console.debug && console.debug('onAppReady()'); } catch (e) {}
     addExperience();
     addEducation();
-    
+
     // Set dark mode as default
     document.documentElement.removeAttribute('data-theme');
     updateThemeIcon();
-    
+
     // Make first section expanded, others collapsed for compact view
     const headers = document.querySelectorAll('.collapsible-header');
     headers.forEach((header, index) => {
         if (index !== 0) {
-            // Collapse all sections except the first one
             const content = header.nextElementSibling;
             if (content && content.classList.contains('form-content')) {
                 content.classList.add('collapsed');
             }
         }
     });
-    
-    // Add Enter key navigation to all input fields
+
+    // Enter key navigation for inputs
     document.addEventListener('keydown', function(event) {
         if (event.key === 'Enter') {
-            // Don't submit on Enter for textarea (allow line breaks)
-            if (event.target.tagName === 'TEXTAREA') {
-                return;
-            }
-            
+            if (event.target.tagName === 'TEXTAREA') return;
             event.preventDefault();
-            
-            // Get all form inputs (text, email, tel, url, textarea)
             const allInputs = Array.from(document.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], input[type="url"], textarea'));
             const currentIndex = allInputs.indexOf(event.target);
-            
-            // Move to next input or first input if at end
             if (currentIndex !== -1 && currentIndex < allInputs.length - 1) {
                 allInputs[currentIndex + 1].focus();
             } else if (currentIndex === allInputs.length - 1) {
-                // At the end, go back to first input
                 allInputs[0].focus();
             }
         }
     });
-});
+
+    // Initialize falling words animation on landing banner (if present)
+    try {
+        const welcomeBanner = document.getElementById('welcomeBanner');
+        if (welcomeBanner) initFallingWords();
+    } catch (err) {
+        // ignore if any issue
+    }
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', onAppReady);
+} else {
+    onAppReady();
+}
 
 // Toggle form section collapse/expand
 function toggleSection(headerElement) {
@@ -225,6 +140,117 @@ function toggleTheme() {
         document.body.classList.remove('theme-transitioning');
     }, 650);
 }
+
+// --- Landing page falling words animation ---
+function initFallingWords() {
+    try { console.debug && console.debug('initFallingWords()'); } catch (e) {}
+    if (fallingWordsActive) return;
+    fallingWordsActive = true;
+    const container = document.getElementById('fallingWords');
+    if (!container) return;
+
+    const phrases = [
+        "No job?",
+        "Lost your last job?",
+        "Don't know how to write a CV?",
+        "Resume feels empty?",
+        "Not sure what to include?",
+        "Confused about keywords?",
+        "No interview calls?",
+        "Unemployed?",
+        "Need help with formatting?",
+        "How to describe experience?",
+        "Worried about ATS?",
+        "Not tech-savvy?",
+        "Don't know templates?",
+        "Need a quick CV?",
+        "Scared of rejection?",
+        "Where to start?",
+        "No time to write?",
+        "Need better layout?",
+        "Too many gaps?",
+        "Short on achievements?"
+    ];
+
+    const spawnSpeed = window.innerWidth <= 768 ? 650 : 350; // mobile slower spawn
+    const maxActive = window.innerWidth <= 768 ? 12 : 30;
+    let activeCount = 0;
+
+    function spawnRandom() {
+        if (!container || activeCount >= maxActive) return;
+        const phrase = phrases[Math.floor(Math.random() * phrases.length)];
+        spawnFallingWord(container, phrase);
+        activeCount++;
+        // decrement activeCount when element removed inside spawnFallingWord
+    }
+
+    // Spawn initial burst
+    for (let i = 0; i < Math.min(8, maxActive); i++) {
+        setTimeout(spawnRandom, i * 200);
+    }
+
+    fallingWordsInterval = setInterval(() => {
+        // occasionally spawn
+        spawnRandom();
+        // cleanup if container removed
+        if (!document.body.contains(container)) stopFallingWords();
+    }, spawnSpeed);
+
+    // expose activeCount tracking via closure by patching spawnFallingWord to decrement
+    // (spawnFallingWord will decrement when its timeout completes)
+}
+
+function spawnFallingWord(container, text) {
+    if (!container) return;
+    const span = document.createElement('span');
+    span.className = 'falling-word';
+    span.textContent = text;
+
+    // random horizontal position
+    const left = Math.random() * 90; // percent
+    span.style.left = `${left}%`;
+
+    // random font size and slight rotation
+    const minSize = 18;
+    const maxSize = 38;
+    const size = Math.floor(minSize + Math.random() * (maxSize - minSize));
+    span.style.fontSize = `${size}px`;
+
+    const rot = Math.floor(-20 + Math.random() * 40);
+    span.style.setProperty('--start-rot', rot + 'deg');
+    span.style.setProperty('--end-rot', (rot + Math.floor(-15 + Math.random() * 30)) + 'deg');
+
+    // random animation duration and delay
+    const duration = 7 + Math.random() * 8; // 7s to 15s
+    const delay = Math.random() * 3; // staggered
+    span.style.animation = `fall ${duration}s linear ${delay}s forwards`;
+
+    // slightly vary opacity so words are subtle
+    span.style.opacity = (0.03 + Math.random() * 0.12).toFixed(2);
+
+    container.appendChild(span);
+
+    // Remove after animation completes
+    const total = (duration + delay) * 1000 + 500;
+    setTimeout(() => {
+        if (span && span.parentNode) span.parentNode.removeChild(span);
+        // update active count if we want finer control in future
+    }, total);
+}
+
+function stopFallingWords() {
+    fallingWordsActive = false;
+    if (fallingWordsInterval) {
+        clearInterval(fallingWordsInterval);
+        fallingWordsInterval = null;
+    }
+    const container = document.getElementById('fallingWords');
+    if (container) {
+        container.innerHTML = '';
+    }
+}
+
+// --- end landing animation ---
 
 // Update Theme Icon
 function updateThemeIcon() {

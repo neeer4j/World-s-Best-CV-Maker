@@ -13,6 +13,8 @@
 <body>
     <!-- Welcome Banner Screen -->
     <div class="welcome-banner" id="welcomeBanner">
+        <!-- Animated falling words background (low opacity) -->
+        <div class="falling-words" id="fallingWords" aria-hidden="true"></div>
         <!-- Meet the developer -->
         <a href="https://github.com/neeer4j" target="_blank" class="welcome-dev" aria-label="Meet the developer on GitHub">
             <!-- Inline GitHub SVG icon -->
@@ -185,7 +187,7 @@
                 <div class="preview-header">
                     <h2>CV Preview</h2>
                     <div class="preview-header-actions">
-                        <button type="button" class="btn-help" onclick="openHelp()" aria-label="Need help">Need help</button>
+                        <button type="button" class="btn-help" onclick="openHelp(event)" aria-label="Need help">Need help</button>
                         <button type="button" class="btn-download" onclick="downloadPDF()">Download PDF</button>
                     </div>
                 </div>

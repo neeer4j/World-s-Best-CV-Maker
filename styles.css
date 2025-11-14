@@ -72,6 +72,8 @@
     max-width: 700px;
     padding: 40px;
     animation: slideUp 0.6s ease-out;
+    position: relative;
+    z-index: 2; /* keep content above falling words */
 }
 
 @keyframes slideUp {
@@ -256,6 +258,55 @@
     .welcome-icon {
         font-size: 60px;
     }
+}
+
+/* Falling words background on landing banner */
+.falling-words {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none; /* allow clicks through to welcome content */
+    z-index: 1; /* behind welcome content */
+}
+
+.falling-words .falling-word {
+    position: absolute;
+    top: -10%;
+    white-space: nowrap;
+    will-change: transform, opacity;
+    transform-origin: center;
+    color: var(--text-primary);
+    opacity: 0.06; /* base low opacity so content remains readable */
+    font-weight: 600;
+    mix-blend-mode: normal;
+    text-transform: none;
+    user-select: none;
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(-10%) rotate(var(--start-rot, 0deg));
+        opacity: 0.02;
+    }
+    10% {
+        opacity: 0.06;
+    }
+    90% {
+        opacity: 0.06;
+    }
+    100% {
+        transform: translateY(110%) rotate(var(--end-rot, 0deg));
+        opacity: 0.02;
+    }
+}
+
+/* Reduce visual density on smaller screens for perf and readability */
+@media (max-width: 768px) {
+    .falling-words .falling-word { opacity: 0.05; font-size: 14px; }
+}
+
+@media (max-width: 480px) {
+    .falling-words { display: none; } /* hide on very small screens to avoid crowding */
 }
 
 body {
@@ -832,17 +883,23 @@ small {
 }
 
 .btn-help {
-    background: transparent;
-    color: var(--text-primary);
-    border: 1px solid var(--border-accent);
-    padding: 8px 12px;
-    border-radius: 4px;
-    font-weight: 600;
+    /* Match Download button for parity */
+    background: var(--button-bg);
+    color: var(--button-text);
+    border: 2px solid var(--button-border);
+    padding: 12px 28px;
+    border-radius: 0;
     cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    transition: all 0.2s ease;
 }
 
 .btn-help:hover {
-    background: var(--bg-tertiary);
+    background: var(--button-hover-bg);
+    transform: translateY(-1px);
 }
 
 /* Help modal styles */
